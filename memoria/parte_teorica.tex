@@ -1,0 +1,94 @@
+\section{Análisis de la Eficiencia}
+
+
+\subsection{Algoritmo de Inserción}
+\begin{lstlisting}[language=C]
+inline static void insercion(int T[], int num_elem)
+{
+  insercion_lims(T, 0, num_elem);
+}
+
+static void insercion_lims(int T[], int inicial, int final)
+{
+  int i, j;
+  int aux;
+  for (i = inicial + 1; i < final; i++) {
+    j = i;
+    while ((T[j] < T[j-1]) && (j > 0)) {
+      aux = T[j];
+      T[j] = T[j-1];
+      T[j-1] = aux;
+      j--;
+    };
+  };
+}
+\end{lstlisting}
+
+Vamos a estudiar el peor caso que se le podría presentar al algoritmo de inserción, es decir, que el vector estuviera ordenado en orden inverso (de mayor a menor).
+
+Como vemos en la línea 5, siempre se llama al método con los argumentos $0$ y $num\_elem$, por lo que a partir de ahora para nosotros, $inicial$ será $0$ y $final$ será $n$.
+
+La mayor parte del tiempo de ejecución se emplea en el cuerpo del bucle $while$ interno. Ese trozo de código se puede acotar por una constante $a$. Por lo tanto, las líneas 15-19 se ejecutan un número de veces dependiente del bucle externo, exactamente $i$ veces (ya que estamos suponiendo que nos encontramos en el peor caso). El bucle externo se ejecuta exactamente $n$ veces, por lo que nos queda:
+
+\[T(n)=\sum_{i=1}^{n-1}\sum_{j=1}^{i}a=a\sum_{i=0}^{n-1}\sum_{j=1}^{i}1=a\sum_{i=0}^{n-1}i=a\frac{n(n-1)}{2}\]
+Por lo que vemos que $T(n)\in O(n^2)$ o cuadrático.
+
+\subsection{Algoritmo QuickSort}
+\begin{lstlisting}[language=C]
+
+static void heapsort(int T[], int num_elem)
+{
+  int i;
+  for (i = num_elem/2; i >= 0; i--)
+    reajustar(T, num_elem, i);
+  for (i = num_elem - 1; i >= 1; i--)
+    {
+      int aux = T[0];
+      T[0] = T[i];
+      T[i] = aux;
+      reajustar(T, i, 0);
+    }
+} 
+
+static void reajustar(int T[], int num_elem, int k)
+{
+  int j;
+  int v;
+  v = T[k];
+  bool esAPO = false;
+  while ((k < num_elem/2) && !esAPO)
+    {
+      j = k + k + 1;
+
+      if ((j < (num_elem - 1)) && (T[j] < T[j+1])) j++;
+      if (v >= T[j]) esAPO = true;
+      
+      T[k] = T[j];
+      k = j;
+    }
+  T[k] = v;
+}
+\end{lstlisting}
+
+Vemos que en el primer bucle de la función $heapsort$ aparece la función $reajustar$, por lo que vamos a calcular su eficiencia primero. 
+
+Vemos que el cuerpo del bucle $while$ consume la mayor parte del tiempo de ejecución. El cuerpo de bucle se puede acotar por una constante $b$. Como vemos en la línea 22, el bucle empieza en $k$ y termina en $\frac{n}{2}$, pero $k$ no avanza de 1 en 1, sino de $2k+1$ en $2k+1$, por lo que como mucho se ejecutará $\log(n/2)$ veces. Por lo que $R(n) \in O(\log(n))$, siendo $K(n)$ la función de eficiencia de la función $reajustar$.
+Una vez conocida la eficiencia de la función $reajustar$, pasamos a estudiar el primer bucle de la función $heapsort$. Va desde $n/2$ hasta $0$, así que se ejecuta $n/2$ veces, y en cada una de esas veces ejecuta la función $reajustar$, por lo que encontes su eficiencia es $\frac{nlog(n)}{2}$. El segundo bucle se ejecuta $n-1$ veces, por lo que nos queda:
+\[T(n)=\frac{nlog(n)}{2}+(n-1)\]
+Por lo que $T(n)\in O(n\log(n))$.
+
+\subsection{Algoritmo de Floyd}
+\begin{lstlisting}[language=C]
+void Floyd(int **M, int dim)
+{
+	for (int k = 0; k < dim; k++)
+	  for (int i = 0; i < dim;i++)
+	    for (int j = 0; j < dim;j++)
+	      {
+				int sum = M[i][k] + M[k][j];    	
+		    M[i][j] = (M[i][j] > sum) ? sum : M[i][j];
+	      }
+}
+\end{lstlisting}
+
+Vemos que el cuerpo del tercer bucle $while$ anidado consume la mayor parte del tiempo de ejecución, por lo que lo acotamos por una constante $a$. Fácilmente vemos que el resto de bucles va desde 0 hasta $dim$, que podemos denominar $n$ para mayor facilidad. Por lo que evidentemente tenemos que la eficiencia de este algoritmo es $an^3$, es decir, $T(n)\in O(n^3)$.

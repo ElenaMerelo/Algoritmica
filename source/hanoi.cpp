@@ -6,7 +6,7 @@
 #include <iostream>
 using namespace std;
 #include <ctime>
-
+#include <chrono>
 
 /**
    @brief Resuelve el problema de las Torres de Hanoi
@@ -32,22 +32,27 @@ void hanoi (int M, int i, int j)
   if (M > 0)
     {
       hanoi(M-1, i, 6-i-j);
-      cout << i << " -> " << j << endl;
       hanoi (M-1, 6-i-j, j);
   }
 }
 
-int main()
+int main(int argc, char ** argv)
 {
 
-  int M;
-  do
-    {
-      cout << "Número de discos: ";
-      cin >> M;
-    } while (M <= 0);
+  int n = atoi(argv[1]);
+  
+  chrono::high_resolution_clock::time_point t_antes, t_despues;
+  chrono::duration<double> t_transcurrido;
 
-  hanoi(M, 1, 2);
+  t_antes = chrono::high_resolution_clock::now();
+
+  hanoi(n, 1, 2);
+
+  t_despues = chrono::high_resolution_clock::now();
+  
+  t_transcurrido = chrono::duration_cast<chrono::duration<double> >(t_despues - t_antes);
+  
+  cout << n << " " << t_transcurrido.count() << endl;
 
   return 0;
 }

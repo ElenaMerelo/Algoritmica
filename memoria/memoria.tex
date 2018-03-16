@@ -1,0 +1,130 @@
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage[hmargin=2cm]{geometry}
+\usepackage{color} 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92} 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+\begin{document}
+\begin{titlepage}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\center
+\textsc{\LARGE Universidad de Granada}\\[1.5cm] % Name of your university/college
+\textsc{\Large Algorítmica}\\[0.5cm] % Major heading such as course name
+\textsc{\large Memoria de Prácticas}\\[0.5cm] % Minor heading such as course title
+\HRule \\[0.4cm]
+{ \huge \bfseries Práctica I: Eficiencia}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Autor:}\\
+Antonio Gámiz Delgado \textsc{} % Your name
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{} \\
+\textsc{} % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[2cm]
+{\large 13 de Marzo}\\[2cm] % Date, change the \today to a set date if you want to be precise
+\includegraphics{logo.png}\\[1cm]
+\vfill % Fill the rest of the page with whitespace
+\end{titlepage}
+
+%\include{parte_teorica}
+
+\section{Eficiencia empírica}
+
+En esta práctica vamos a estudiar la eficiencia empírica de los siguientes algoritmos:
+
+\begin{center}
+\begin{tabular}{| c | c |}
+\hline
+Algoritmo & Orden de Eficiencia \\ \hline
+Burbuja & O$(n^2$) \\ \hline
+Inserción & O$(n^2$) \\ \hline 
+Selección & O$(n^2$) \\ \hline 
+Mergesort & O$(n\log(n)$) \\ \hline 
+Quicksort & O$(n\log(n)$) \\ \hline 
+Heapsort & O$(n\log(n)$) \\ \hline
+Floyd & O$(n^3)$ \\ \hline 
+Hanoi & O$(2^n)$ \\ \hline 
+\hline
+\end{tabular}
+\end{center}
+
+Para el estudio de la eficiencia empírica he escrito un script \footnotetext{Adjunto el código del script pero no lo explico porque creo que no es el objetivo de esta práctica.} en $Python 2.7$ para facilitarme el trabajo de la gestión de los datos. Primero, he añadido a cada programa unas líneas de código para poder medir el tiempo que ha tardado en ejecutarse. Luego he compilado cada programa con 3 opciones de optimización distintas (sin optimizar, con -O1 y con -O2) con g++. Una vez obtenidos los ejecutables, he ejecutado cada grupo de programas (me refiero al mismo algoritmo pero compilado de forma diferente) 25 veces con diferentes valores de $n$ (tamaño) para cada algoritmo y he guardado los resultados en varios archivos (los datos obtenidos se pueden ver en las tablas de abajo). Una vez hecho todo eso, he hecho un ajuste por mínimos cuadrados de los datos según su orden de eficiencia:
+
+\begin{enumerate}
+\item $O(n^2)$: ajustada por la función $f(x)=ax^2+bx+c$
+\item $O(n\log(n)$: ajustada por la función $f(x)=a\log(bn)+c$
+\item $O(n^3)$: ajustada por la función $f(x)=ax^3+bx^2+cx+d$
+\item $O(2^n)$: ajustada por la función $f(x)=a2^{bn}+c$
+\end{enumerate}
+
+Los valores obtenidos para los coeficientes $(a,b,c,d)$ aparecen en la legenda de las gráficas según la opción de optimización usada.
+
+Las gráficas que aparece sóla en cada página (la que hay debajo de las 3 pequeñas) muestra como varía la eficiencia del algoritmo en función de la opción de optimización usada.
+
+A continuación muestro todos los datos obtenidos junto a las gráficas de los algoritmos expuestos arriba:
+
+\include{./tables/burbuja}
+\include{./tables/insercion}
+\include{./tables/seleccion}
+\include{./tables/mergesort}
+\include{./tables/quicksort}
+\include{./tables/heapsort}
+\include{./tables/floyd}
+\include{./tables/hanoi}
+
+
+\section{Algoritmos de búsqueda}
+\begin{center}
+\includegraphics[scale=0.6]{../graficos/ordenacion/ordenacion.png}
+\end{center}
+En la gráfica de arriba he representado la eficiencia empírica de todos los algoritmos de ordenación estudiados más arriba. Observando el gráfico, vemos la clara superioridad de los algoritmos quicksort, heapsort y mergesort. 
+
+Vemos, también, que para tamaños entre 5000 y 6000, el algoritmo de selección es más lento que el de la burbuja, pero para tamaños superiores, el algoritmo de selección es notablemente más rápido (esto se debe a que el valor del UMBRAL se encuentra entre esos valores). Además observamos que el algoritmo de inserción siempre es más rápido que el de selección y el de la burbuja.
+
+\begin{center}
+\includegraphics[scale=0.5]{../graficos/ordenacion/ordenacion_sort_only.png}
+\end{center}
+
+Debido a que en la anterior imagen no podemos comparar adecuadamente los algoritmos quicksort, mergesort y heapsort, he generado otra gráfica con ellos solos para una mejor visualización. 
+
+Vemos que para tamaños menores a 2000 el algoritmo mergesort es más lento que los demás, pero a partir de ese tamaño se hace evidente que es el mejor algoritmo de ordenación de todos los vistos aquí.
+
+\section{Variación del ajuste según la función}
+
+\includegraphics[scale=0.9]{../graficos/ordenacion/ajuste.png}
+
+En la gráfica de arriba he realizado el ajuste correspondiente al algoritmo de la burbuja optimizado con la opción $O2$, pero esta vez ajustándolo a otras funciones. Como vemos, la calidad del ajuste es pésima, la función $f(x)=x^3$ sale tan alejadda de los datos que ni si quiere se muestra en el gráfico, y la función logarítima no se acerca mucho tampoco. Sin embargo, como vemos, la función $x^2$, se ciñe perfectamente a los datos tomados. Aquí se ve la importancia de realizar un buen estudio teórico de la eficiencia antes de realizar el estudio empírico.
+
+\end{document}

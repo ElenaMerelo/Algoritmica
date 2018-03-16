@@ -1,0 +1,208 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University Assignment Title Page 
+% LaTeX Template
+% Version 1.0 (27/12/12)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% WikiBooks (http://en.wikibooks.org/wiki/LaTeX/Title_Creation)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+% 
+% Instructions for using this template:
+% This title page is capable of being compiled as is. This is not useful for 
+% including it in another document. To do this, you have two options: 
+%
+% 1) Copy/paste everything between \begin{document} and \end{document} 
+% starting at \begin{titlepage} and paste this into another LaTeX file where you 
+% want your title page.
+% OR
+% 2) Remove everything outside the \begin{titlepage} and \end{titlepage} and 
+% move this file to the same directory as the LaTeX file you wish to add it to. 
+% Then add \input{./title_page_1.tex} to your LaTeX file where you want your
+% title page.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\title{Title page with logo}
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass[12pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage[hmargin=2cm]{geometry}
+
+\usepackage{color}
+ 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+ 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+ 
+\lstset{style=mystyle}
+
+
+\begin{document}
+
+\begin{titlepage}
+
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}} % Defines a new command for the horizontal lines, change thickness here
+
+\center % Center everything on the page
+ 
+%----------------------------------------------------------------------------------------
+%	HEADING SECTIONS
+%----------------------------------------------------------------------------------------
+
+\textsc{\LARGE Universidad de Granada}\\[1.5cm] % Name of your university/college
+\textsc{\Large Algorítmica}\\[0.5cm] % Major heading such as course name
+\textsc{\large Memoria de Prácticas}\\[0.5cm] % Minor heading such as course title
+
+%----------------------------------------------------------------------------------------
+%	TITLE SECTION
+%----------------------------------------------------------------------------------------
+
+\HRule \\[0.4cm]
+{ \huge \bfseries Práctica I: Eficiencia}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+ 
+%----------------------------------------------------------------------------------------
+%	AUTHOR SECTION
+%----------------------------------------------------------------------------------------
+
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Autora:}\\
+Elena Merelo Molina \textsc{} % Your name
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{} \\
+\textsc{} % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[2cm]
+
+% If you don't want a supervisor, uncomment the two lines below and remove the section above
+%\Large \emph{Author:}\\
+%John \textsc{Smith}\\[3cm] % Your name
+
+%----------------------------------------------------------------------------------------
+%	DATE SECTION
+%----------------------------------------------------------------------------------------
+
+{\large 13 de Marzo}\\[2cm] % Date, change the \today to a set date if you want to be precise
+
+%----------------------------------------------------------------------------------------
+%	LOGO SECTION
+%----------------------------------------------------------------------------------------
+
+\includegraphics{logo.png}\\[1cm] % Include a department/university logo - this will require the graphicx package
+ 
+%----------------------------------------------------------------------------------------
+
+\vfill % Fill the rest of the page with whitespace
+
+\end{titlepage}
+
+%\todo[inline, color=green!40]{This is an inline comment.}
+%\todo{Here's a comment in the margin!}
+% Commands to include a figure:
+%\begin{figure}
+%\centering
+%\includegraphics[width=0.5\textwidth]{frog.jpg}
+%\caption{\label{fig:frog}This is a figure caption.}
+%\end{figure}
+
+
+%\include{parte_teorica}
+
+%\begin{minipage}{.5\textwidth}
+%\includegraphics[scale=0.4]{../graficos/burbuja/burbuja_O1.png}  
+%\end{minipage}
+
+%\section{Eficiencia Empírica}
+
+%Escribir aqui explicacion del script.
+
+\section{Eficiencia empírica}
+
+En esta práctica veremos la eficiencia empírica de los algoritmos:
+
+\begin{center}
+\begin{tabular}{| c | c |}
+\hline
+Algoritmo & Orden de Eficiencia \\ \hline
+Burbuja & O$(n^2$) \\ \hline
+Inserción & O$(n^2$) \\ \hline 
+Selección & O$(n^2$) \\ \hline 
+Mergesort & O$(n\log(n)$) \\ \hline 
+Quicksort & O$(n\log(n)$) \\ \hline 
+Heapsort & O$(n\log(n)$) \\ \hline
+Floyd & O$(n^3)$ \\ \hline 
+Hanoi & O$(2^n)$ \\ \hline 
+\hline
+\end{tabular}
+\end{center}
+Con el objetivo de estudiar la eficiencia empírica de los algoritmos dados, en cada programa hemos medido el tiempo que ha tardado en ejecutarse, incluyendo la biblioteca ctime y usando clock\_t, compilando cada programa por separado con g++ nombre\_algoritmo.cpp -o nombre\_algoritmo, esto mismo con la opción -O1 y -O3 para luego comparar resultados. 
+Cuando ya se generaron los ejecutables, creados para veinticinco valores diferentes de $n$, programa por programa, de manera que los resultados se guarden en sus correspondientes archivos .csv, lo hemos representado ajustando por el método de los mínimos cuadráticos según el orden de eficiencia de cada uno:
+\begin{enumerate}
+\item $O(n^2)$ ajustada a $f(x)=ax^2+bx+c$
+\item $O(n\log(n)$ ajustada a $f(x)=a\log(bn)+c$
+\item $O(n^3)$ ajustada a $f(x)=ax^3+bx^2+cx+d$
+\item $O(2^n)$ ajustada a $f(x)=a2^{bn}+c$
+\end{enumerate}
+
+Vemos ahora detalladamente la representación gráfica de los datos obtenidos.
+
+
+\include{./tables/burbuja}
+\include{./tables/insercion}
+\include{./tables/seleccion}
+\include{./tables/mergesort}
+\include{./tables/quicksort}
+\include{./tables/heapsort}
+\include{./tables/floyd}
+\include{./tables/hanoi}
+
+
+\section{Algoritmos de búsqueda}
+\begin{center}
+\includegraphics[scale=0.6]{../graficos/ordenacion/ordenacion.png}
+\end{center}
+En esta gráfica vemos la representación de todos los algoritmos de la práctica, cómo el de burbuja crece mucho más rápidamente que el resto mientras que quicksort, mergesort y heapsort son rectas. Así, concluimos que burbuja > selección > inserción > mergesort, quicksort y heapsort con respecto a eficiencia, algo que veníamos intuyendo al ver que orden tenían al principio del documento.
+
+\begin{center}
+\includegraphics[scale=0.5]{../graficos/ordenacion/ordenacion_sort_only.png}
+\end{center}
+Para poder diferenciar mejor los algoritmos con O$(n\log(n)$) los vemos en otra gráfica. Apreciamos entonces cómo para tamaños pequeños, hasta 2000 aproximadamente, el algoritmo mergesort es más eficiente que el heapsort, que a su vez es mejor que el quicksort, mas esto cambia y pasa justo lo contrario a partir de 2000.
+
+\end{document}
