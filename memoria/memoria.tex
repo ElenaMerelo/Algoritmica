@@ -1,4 +1,4 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 \usepackage[english]{babel}
 \usepackage[utf8x]{inputenc}
 \usepackage{amsmath}
@@ -42,8 +42,8 @@
 \HRule \\[1.5cm]
 \begin{minipage}{0.4\textwidth}
 \begin{flushleft} \large
-\emph{Autor:}\\
-Antonio Gámiz Delgado \textsc{} % Your name
+\emph{Autores:}\\
+Elena Merelo Molina \\ Antonio Gámiz Delgado\textsc{} % Your name
 \end{flushleft}
 \end{minipage}
 ~
@@ -53,12 +53,12 @@ Antonio Gámiz Delgado \textsc{} % Your name
 \textsc{} % Supervisor's Name
 \end{flushright}
 \end{minipage}\\[2cm]
-{\large 13 de Marzo}\\[2cm] % Date, change the \today to a set date if you want to be precise
+{\large 17 de Marzo}\\[2cm] % Date, change the \today to a set date if you want to be precise
 \includegraphics{logo.png}\\[1cm]
 \vfill % Fill the rest of the page with whitespace
 \end{titlepage}
 
-%\include{parte_teorica}
+\include{parte_teorica}
 
 \section{Eficiencia empírica}
 
@@ -80,7 +80,7 @@ Hanoi & O$(2^n)$ \\ \hline
 \end{tabular}
 \end{center}
 
-Para el estudio de la eficiencia empírica he escrito un script \footnotetext{Adjunto el código del script pero no lo explico porque creo que no es el objetivo de esta práctica.} en $Python 2.7$ para facilitarme el trabajo de la gestión de los datos. Primero, he añadido a cada programa unas líneas de código para poder medir el tiempo que ha tardado en ejecutarse. Luego he compilado cada programa con 3 opciones de optimización distintas (sin optimizar, con -O1 y con -O2) con g++. Una vez obtenidos los ejecutables, he ejecutado cada grupo de programas (me refiero al mismo algoritmo pero compilado de forma diferente) 25 veces con diferentes valores de $n$ (tamaño) para cada algoritmo y he guardado los resultados en varios archivos (los datos obtenidos se pueden ver en las tablas de abajo). Una vez hecho todo eso, he hecho un ajuste por mínimos cuadrados de los datos según su orden de eficiencia:
+Para el estudio de la eficiencia empírica hemos escrito un script \footnotetext{Adjuntamos el código del script pero no lo explicamos ya que creemos que no es el objetivo de esta práctica.} en $Python 2.7$ para facilitar el trabajo de la gestión de los datos. Primeramente añadimos a cada programa unas líneas de código y de esta manera medir el tiempo que ha tardado en ejecutarse. Luego compilamos cada programa con 3 opciones de optimización distintas (sin optimizar, con -O1 y con -O2) con g++, y una vez obtenidos los ejecutables, ejecutamos cada grupo de programas 25 veces con diferentes valores de $n$ (tamaño) para cada algoritmo y guardamos los resultados en varios archivos (los datos obtenidos se pueden ver en las tablas de abajo). Una vez hecho todo esto, ajustamos aplicando el método de mínimos cuadrados los datos con su orden de eficiencia:
 
 \begin{enumerate}
 \item $O(n^2)$: ajustada por la función $f(x)=ax^2+bx+c$
@@ -89,42 +89,117 @@ Para el estudio de la eficiencia empírica he escrito un script \footnotetext{Ad
 \item $O(2^n)$: ajustada por la función $f(x)=a2^{bn}+c$
 \end{enumerate}
 
+
 Los valores obtenidos para los coeficientes $(a,b,c,d)$ aparecen en la legenda de las gráficas según la opción de optimización usada.
 
-Las gráficas que aparece sóla en cada página (la que hay debajo de las 3 pequeñas) muestra como varía la eficiencia del algoritmo en función de la opción de optimización usada.
+Las última gráfica de cada página muestra como varía la eficiencia del algoritmo en función de la opción de optimización usada.
 
-A continuación muestro todos los datos obtenidos junto a las gráficas de los algoritmos expuestos arriba:
+A continuación mostramos todos los datos obtenidos junto a las gráficas de los algoritmos expuestos arriba:
 
-\include{./tables/burbuja}
-\include{./tables/insercion}
-\include{./tables/seleccion}
-\include{./tables/mergesort}
-\include{./tables/quicksort}
-\include{./tables/heapsort}
-\include{./tables/floyd}
-\include{./tables/hanoi}
+
+\include{./tables/burbuja_elena}
+\include{./tables/burbuja_antonio}
+
+\include{./tables/insercion_elena}
+\include{./tables/insercion_antonio}
+
+\include{./tables/seleccion_elena}
+\include{./tables/seleccion_antonio}
+
+\include{./tables/mergesort_elena}
+\include{./tables/mergesort_antonio}
+
+\include{./tables/quicksort_elena}
+\include{./tables/quicksort_antonio}
+
+\include{./tables/heapsort_elena}
+\include{./tables/heapsort_antonio}
+
+\include{./tables/floyd_elena}
+\include{./tables/floyd_antonio}
+
+\include{./tables/hanoi_elena}
+\include{./tables/hanoi_antonio}
+
 
 
 \section{Algoritmos de búsqueda}
 \begin{center}
-\includegraphics[scale=0.6]{../graficos/ordenacion/ordenacion.png}
+\includegraphics[scale=0.6]{../graficos/ordenacion/ordenacion_antonio.png}
 \end{center}
-En la gráfica de arriba he representado la eficiencia empírica de todos los algoritmos de ordenación estudiados más arriba. Observando el gráfico, vemos la clara superioridad de los algoritmos quicksort, heapsort y mergesort. 
 
-Vemos, también, que para tamaños entre 5000 y 6000, el algoritmo de selección es más lento que el de la burbuja, pero para tamaños superiores, el algoritmo de selección es notablemente más rápido (esto se debe a que el valor del UMBRAL se encuentra entre esos valores). Además observamos que el algoritmo de inserción siempre es más rápido que el de selección y el de la burbuja.
+En la gráfica superior hemos representado la eficiencia empírica de todos los algoritmos de ordenación estudiados. Observando el gráfico, vemos lo eficientes que son quicksort, heapsort y mergesort con respecto a los otros.
+
+Vemos también, que, para tamaños entre 5000 y 6000, el algoritmo de selección es más lento que el de la burbuja, pero para tamaños superiores, el algoritmo de selección es notablemente más rápido (esto se debe a que el valor del UMBRAL se encuentra entre esos valores). Además observamos que el algoritmo de inserción siempre es más rápido que el de selección y el de la burbuja.
 
 \begin{center}
-\includegraphics[scale=0.5]{../graficos/ordenacion/ordenacion_sort_only.png}
+\includegraphics[scale=0.5]{../graficos/ordenacion/ordenacion_sort_only_antonio.png}
 \end{center}
 
-Debido a que en la anterior imagen no podemos comparar adecuadamente los algoritmos quicksort, mergesort y heapsort, he generado otra gráfica con ellos solos para una mejor visualización. 
+Debido a que en la anterior imagen no podemos comparar adecuadamente los algoritmos quicksort, mergesort y heapsort, hemos generado otra gráfica con ellos solos. 
 
-Vemos que para tamaños menores a 2000 el algoritmo mergesort es más lento que los demás, pero a partir de ese tamaño se hace evidente que es el mejor algoritmo de ordenación de todos los vistos aquí.
+Observamos ahora que para tamaños menores a 2000 el algoritmo mergesort es más lento que los demás, pero a partir de ese tamaño se hace evidente que es el mejor algoritmo de ordenación de todos los vistos aquí.
 
 \section{Variación del ajuste según la función}
 
-\includegraphics[scale=0.9]{../graficos/ordenacion/ajuste.png}
+\begin{center}
+\includegraphics[scale=0.7]{../graficos/ordenacion/ajuste_antonio.png}
+\end{center}
 
-En la gráfica de arriba he realizado el ajuste correspondiente al algoritmo de la burbuja optimizado con la opción $O2$, pero esta vez ajustándolo a otras funciones. Como vemos, la calidad del ajuste es pésima, la función $f(x)=x^3$ sale tan alejadda de los datos que ni si quiere se muestra en el gráfico, y la función logarítima no se acerca mucho tampoco. Sin embargo, como vemos, la función $x^2$, se ciñe perfectamente a los datos tomados. Aquí se ve la importancia de realizar un buen estudio teórico de la eficiencia antes de realizar el estudio empírico.
+En la gráfica de arriba hemos realizado el ajuste correspondiente al algoritmo de la burbuja optimizado con la opción $O2$, pero esta vez ajustándolo a otras funciones. Como vemos, la calidad del ajuste es pésima, la función $f(x)=x^3$ sale tan alejada de los datos que ni siquiera se muestra en el gráfico, y la función logarítimica no se acerca mucho tampoco. Sin embargo la función $x^2$ se ciñe perfectamente a los datos tomados. Aquí se ve la importancia de realizar un buen estudio teórico de la eficiencia antes de realizar el estudio empírico.
+
+
+\section{Variación de la eficiencia según el ordenador donde se ejecuta}
+
+A continuación vemos unas gráficas donde podemos ver que la eficiencia teórica de los algoritmos se mantiene sin importar el ordenador en el que sea ejecutado. Lo único que varía son los coeficientes, que serán mejores según las prestaciones del ordenador, en este caso podemos ver que el ordenador de Antonio ejecuta mejor la mayoría de los algoritmos al tener unas mejores prestaciones que el de Elena, aunque esto no pasa en todos los casos.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{../graficos/distintos/burbuja.png}
+\caption{Burbuja}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{../graficos/distintos/insercion.png}
+\caption{Inserción}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{../graficos/distintos/seleccion.png}
+\caption{Selección}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{../graficos/distintos/quicksort.png}
+\caption{Quicksort}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{../graficos/distintos/heapsort.png}
+\caption{Heapsort}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{../graficos/distintos/mergesort.png}
+\caption{Mergesort}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{../graficos/distintos/floyd.png}
+\caption{Floyd}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.7]{../graficos/distintos/Hanoi.png}
+\caption{Hanoi}
+\end{figure}
+
 
 \end{document}

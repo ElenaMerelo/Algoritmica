@@ -24,16 +24,60 @@ static void insercion_lims(int T[], int inicial, int final)
 }
 \end{lstlisting}
 
-Vamos a estudiar el peor caso que se le podría presentar al algoritmo de inserción, es decir, que el vector estuviera ordenado en orden inverso (de mayor a menor).
+Estudiemos el peor caso que se le podría presentar al algoritmo de inserción: que el vector estuviera ordenado en orden inverso (de mayor a menor).
 
 Como vemos en la línea 5, siempre se llama al método con los argumentos $0$ y $num\_elem$, por lo que a partir de ahora para nosotros, $inicial$ será $0$ y $final$ será $n$.
 
 La mayor parte del tiempo de ejecución se emplea en el cuerpo del bucle $while$ interno. Ese trozo de código se puede acotar por una constante $a$. Por lo tanto, las líneas 15-19 se ejecutan un número de veces dependiente del bucle externo, exactamente $i$ veces (ya que estamos suponiendo que nos encontramos en el peor caso). El bucle externo se ejecuta exactamente $n$ veces, por lo que nos queda:
 
 \[T(n)=\sum_{i=1}^{n-1}\sum_{j=1}^{i}a=a\sum_{i=0}^{n-1}\sum_{j=1}^{i}1=a\sum_{i=0}^{n-1}i=a\frac{n(n-1)}{2}\]
-Por lo que vemos que $T(n)\in O(n^2)$ o cuadrático.
+Por lo que vemos que $T(n)\in O(n^2)$, es cuadrático.
 
-\subsection{Algoritmo QuickSort}
+\newpage
+
+\subsection{Algoritmo Selección}
+
+\begin{lstlisting}[language=C]
+void seleccion(int T[], int num_elem)
+{
+  seleccion_lims(T, 0, num_elem);
+}
+
+static void seleccion_lims(int T[], int inicial, int final)
+{
+  int i, j, indice_menor;
+  int menor, aux;
+  for (i = inicial; i < final - 1; i++) {
+    indice_menor = i;
+    menor = T[i];
+    for (j = i; j < final; j++)
+      if (T[j] < menor) {
+			indice_menor = j;
+			menor = T[j];
+      }
+    aux = T[i];
+    T[i] = T[indice_menor];
+    T[indice_menor] = aux;
+  };
+}
+\end{lstlisting}
+
+Vamos a estudiar el peor caso que se le podría presentar al algoritmo de selección, es decir, que el vector estuviera ordenado a la inversa (de mayor a menor).
+
+Como vemos en la línea 3, siempre se llama al método con los argumentos $0$ y $num\_elem$, por lo que a partir de ahora para nosotros, $inicial$ será $0$ y $final$ será $n$.
+
+Las líneas 8 y 9 son de orden $O(1)$ por lo que las descartamos. Vemos que el prácticamente todo el tiempo de ejecución es consumido por los dos bucles $for$ de las líneas 10 y 13. El primer bucle se ejecuta $n$ veces, mientras que el bucle interior se ejecutará $n-i$ veces por cada iteración del bucle anterior. Por lo que tenemos:
+
+\[
+\sum_{i=0}^{n-1}(n-i-1)=\sum_{i=0}^{n-1}(n-1)-\sum_{i=0}^{n-1}i=(n-1)n-\frac{n(n+1)}{2}=\frac{n^2}{2}-\frac{n}{2}
+\]
+
+Por lo que tenemos que, $T(n)\in O(n^2)$, donde $T(n)$ es la función de eficiencia del algoritmo de selección.
+
+\newpage 
+
+\subsection{Algoritmo Heapsort}
+
 \begin{lstlisting}[language=C]
 
 static void heapsort(int T[], int num_elem)
@@ -72,12 +116,13 @@ static void reajustar(int T[], int num_elem, int k)
 
 Vemos que en el primer bucle de la función $heapsort$ aparece la función $reajustar$, por lo que vamos a calcular su eficiencia primero. 
 
-Vemos que el cuerpo del bucle $while$ consume la mayor parte del tiempo de ejecución. El cuerpo de bucle se puede acotar por una constante $b$. Como vemos en la línea 22, el bucle empieza en $k$ y termina en $\frac{n}{2}$, pero $k$ no avanza de 1 en 1, sino de $2k+1$ en $2k+1$, por lo que como mucho se ejecutará $\log(n/2)$ veces. Por lo que $R(n) \in O(\log(n))$, siendo $K(n)$ la función de eficiencia de la función $reajustar$.
-Una vez conocida la eficiencia de la función $reajustar$, pasamos a estudiar el primer bucle de la función $heapsort$. Va desde $n/2$ hasta $0$, así que se ejecuta $n/2$ veces, y en cada una de esas veces ejecuta la función $reajustar$, por lo que encontes su eficiencia es $\frac{nlog(n)}{2}$. El segundo bucle se ejecuta $n-1$ veces, por lo que nos queda:
+El cuerpo del bucle $while$ consume la mayor parte del tiempo de ejecución, y se puede acotar por una constante $b$. Como se puede observar en la línea 22, el bucle empieza en $k$ y termina en $\frac{n}{2}$, pero $k$ no avanza de 1 en 1, sino de $2k+1$ en $2k+1$, por lo que como mucho se ejecutará $\log(n/2)$ veces. Así, $R(n) \in O(\log(n))$, siendo $K(n)$ la función de eficiencia de la función $reajustar$.
+Una vez conocida la eficiencia de la función $reajustar$, pasamos a estudiar el primer bucle de la función $heapsort$. Va desde $n/2$ hasta $0$, luego se ejecuta $n/2$ veces, y cada una de esas veces ejecuta la función $reajustar$, por lo que entonces su eficiencia es $\frac{nlog(n)}{2}$. El segundo bucle se ejecuta $n-1$ veces, quedando:
 \[T(n)=\frac{nlog(n)}{2}+(n-1)\]
 Por lo que $T(n)\in O(n\log(n))$.
 
 \subsection{Algoritmo de Floyd}
+
 \begin{lstlisting}[language=C]
 void Floyd(int **M, int dim)
 {
@@ -91,4 +136,42 @@ void Floyd(int **M, int dim)
 }
 \end{lstlisting}
 
-Vemos que el cuerpo del tercer bucle $while$ anidado consume la mayor parte del tiempo de ejecución, por lo que lo acotamos por una constante $a$. Fácilmente vemos que el resto de bucles va desde 0 hasta $dim$, que podemos denominar $n$ para mayor facilidad. Por lo que evidentemente tenemos que la eficiencia de este algoritmo es $an^3$, es decir, $T(n)\in O(n^3)$.
+Como se puede observar, el cuerpo del tercer bucle $while$ anidado consume la mayor parte del tiempo de ejecución, por lo que lo acotamos por una constante $a$. El resto de bucles va desde 0 hasta $dim$, que podemos denominar $n$ para mayor facilidad. Por lo que evidentemente tenemos que la eficiencia de este algoritmo es $an^3$, es decir, $T(n)\in O(n^3)$.
+
+
+\subsection{Algoritmo de Hanoi}
+\begin{lstlisting}[language=C]
+void hanoi (int M, int i, int j)
+{
+  if (M > 0)
+    {
+      hanoi(M-1, i, 6-i-j);
+      hanoi (M-1, 6-i-j, j);
+  }
+}
+
+\end{lstlisting}
+
+De la clase de teoría sabemos que la función de Hanoi tiene como función de eficienciaa:
+\[
+T(n)=\left\lbrace
+\begin{array}{cc}
+2T(\frac{n}{2})+1 & n \geq 1 \\
+1 & n=1
+\end{array}
+\right.
+\]
+
+\[
+\begin{array}{cc}
+T(n)=2\overbrace{T(n-1)}^{2T(n-2)+1}+1 & n > 1 \\
+T(n)=2^2T(n-2)+2+1 & n > 2 \\
+T(n)=2^iT(n-i)+(2^{i-1}+\dots+2^2+2+1) & n > i
+\end{array}
+\]
+
+Por lo que si tomamos $i=n-1$:
+
+\[T(n)=2^{n-1}+2^{n-2}+\dots+2^2+2+1=\frac{2^{n-1}2-1}{2-1}=2^n-1\]
+
+Por lo que tenemos que $T(n)\in O(2^n)$.
