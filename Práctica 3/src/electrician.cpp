@@ -107,6 +107,8 @@ vector<edge> kruskal(graph &g)
 
     sort(edges.begin(), edges.end(), compare_by_weight); //Sort the vector of edges.
 
+    // for(int i=0; i<edges.size(); i++) cout << edges[i].weight << endl;
+
     vector<edge> solution;
     struct edge candidate;
 
@@ -153,8 +155,8 @@ int main(int argc, char **argv)
 
     cout << "DIMENSION: " << dimension << endl;
     for(int i=0; i<way.size(); i++){
-        cout << way[i].p1.label << endl;
-        cout << way[i].p2.label << endl;    
+        cout << way[i].p1.label << " " << way[i].p1.coord.first << " " << way[i].p1.coord.second << endl;
+        cout << way[i].p2.label << " " << way[i].p2.coord.first << " " << way[i].p2.coord.second << endl;    
     }
     
 
