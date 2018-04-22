@@ -66,5 +66,3 @@ class heap
             return min;
         }
 };
-
-int main(){}
