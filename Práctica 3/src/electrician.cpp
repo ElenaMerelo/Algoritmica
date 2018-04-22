@@ -1,9 +1,11 @@
 #include <iostream>
+#include <sstream>
 #include <fstream>
 #include <math.h>
 #include <cstdlib>
 #include "graph.cpp"
 #include <algorithm>
+#include <string>
 
 using namespace std;
 
@@ -24,7 +26,7 @@ struct edge
     }
 };
 
-float euclidean_distance(pair<int, int> x1, pair<int, int> x2){ return sqrt((x1.first-x2.first)^2 + (x1.second-x2.second)^2); }
+float euclidean_distance(pair<int, int> x1, pair<int, int> x2){ return sqrt( pow(x1.first-x2.first,2) + pow(x1.second-x2.second,2) ); }
 
 int get_dimension(ifstream &f)
 {
@@ -43,24 +45,41 @@ int get_dimension(ifstream &f)
 
 void fill_graph(graph &g, ifstream &f)
 {
-    char buffer[BUFFERSIZE], aux;
-    char number[5];
+    // char buffer[BUFFERSIZE];
+    // char number[5];
     int x, y;
 
-    for(int i=0; i<3; i++)
-    {
+    // for(int i=0; i<3; i++)
+    // {
 
-        f.getline(buffer, BUFFERSIZE);
+    //     f.getline(buffer, BUFFERSIZE);
 
-        for(int j=0; j<3; j++)
-            number[j]=buffer[j+4];        
-        x=atoi(number);
-        for(int j=0; j<3; j++)
-            number[j]=buffer[j+8];        
-        y=atoi(number);
+    //     for(int j=0; j<3; j++)
+    //         number[j]=buffer[j+4];        
+    //     x=atoi(number);
+    //     for(int j=0; j<3; j++)
+    //         number[j]=buffer[j+8];        
+    //     y=atoi(number);
 
-        g.add_node( pair<int, int>(x,y) );
+    //     g.add_node( pair<int, int>(x,y) );
+    // }
+
+    string line, aux;
+    int row[3], i;
+    vector< vector<int> > all_integers;
+    while ( getline( f, line ) ) {
+        stringstream is( line );
+        i=0;
+        while(i<3)
+        {
+            getline(is, aux, ' ');
+            row[i]=atoi(aux.c_str());
+            i++;
+        }
+
+        g.add_node( pair<int, int>(row[1],row[2]) );
     }
+
 
     vector<node> nodes=g.get_nodes();
     for(int i=0; i<nodes.size(); i++){ //FIXME: Matrix is simetric.
@@ -145,9 +164,6 @@ int main(int argc, char **argv)
     fill_graph(G, f);
 
     vector<edge> way=kruskal(G);
-
-    nodes=G.get_nodes();
-    for(int i=0; i<dimension; i++) cout << i+1 << " " << nodes[i].coord.first << " " << nodes[i].coord.second << endl;
 
 
     // cout << "DIMENSION: " << dimension << endl;
