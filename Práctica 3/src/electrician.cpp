@@ -14,6 +14,8 @@ struct edge
     pair<int, int> coord;
     float weight;
 
+    edge(){};
+
     edge(int x, int y, float weight_)
     {
         coord.first=x;
@@ -99,7 +101,24 @@ vector<edge> kruskal(graph &g)
         for(int j=i; j<g.size(); j++)
             edges.push_back(edge(i,j,g.get_weight(i,j)));
 
-    sort(edges.begin(), edges.end(), compare_by_weight);
+    sort(edges.begin(), edges.end(), compare_by_weight); //Sort the vector of edges.
+
+    vector<edge> solution;
+    struct edge candidate;
+
+    while(edges.size())
+    {
+        candidate=edges[0];
+
+        solution.push_back(candidate);
+
+        if( cycle(solution) )
+            solution.pop_back();
+
+        edges.erase(edges.begin());
+    }
+
+    return solution;
 }
 
 int main(int argc, char **argv)
@@ -124,4 +143,16 @@ int main(int argc, char **argv)
     graph G(dimension);
 
     fill_graph(G, f);
+
+    vector<edge> way=kruskal(G);
+
+    nodes=G.get_nodes();
+    for(int i=0; i<dimension; i++) cout << i+1 << " " << nodes[i].coord.first << " " << nodes[i].coord.second << endl;
+
+
+    // cout << "DIMENSION: " << dimension << endl;
+    // for(int i=0; i<dimension; i++) cout << i+1 << " " << way[i].coord.first << " " << way[i].coord.second << endl;
+
+    
+
 }
