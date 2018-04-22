@@ -74,6 +74,23 @@ void fill_graph(graph &g, ifstream &f)
 
 bool compare_by_weight(const edge& a, const edge& b){ return a.weight < b.weight; }
 
+
+bool cycle(vector<edge>& v)
+{
+    for(int i=0; i<v.size(); i++)
+    {
+        for(int j=0; j<v.size(); j++)
+        {
+            if( v[i].coord.first == v[j].coord.first && i!=j)
+                return true;
+            if( v[i].coord.second == v[j].coord.second && i!=j)
+                return true;
+
+        }
+    }
+    return false;
+}
+
 vector<edge> kruskal(graph &g)
 {
     //First we create a vector with each edge of the grap.
