@@ -1,11 +1,14 @@
 #include <iostream>
 #include <fstream>
+#include <math.h>
 #include <cstdlib>
 #include "graph.cpp"
 
 using namespace std;
 
 #define BUFFERSIZE 50
+
+float euclidean_distance(pair<int, int> x1, pair<int, int> x2){ return sqrt((x1.first-x2.first)^2 + (x1.second-x2.second)^2); }
 
 int get_dimension(ifstream &f)
 {
@@ -27,6 +30,7 @@ void fill_graph(graph &g, ifstream &f)
     char buffer[BUFFERSIZE], aux;
     char number[5];
     int x, y;
+
     for(int i=0; i<3; i++)
     {
 
@@ -39,10 +43,18 @@ void fill_graph(graph &g, ifstream &f)
             number[j]=buffer[j+8];        
         y=atoi(number);
 
-        //TODO: Hay que rellenar el grafo con los nodos.
+        g.add_node( pair<int, int>(x,y) );
     }
 
-    //TODO: Calcular distancias entre todos los nodos.
+    vector<node> nodes=g.get_nodes();
+    for(int i=0; i<nodes.size(); i++){ //FIXME: Matrix is simetric.
+        for(int j=0; j<nodes.size(); j++){
+            if(i==j)
+                g.set_weight(i,j,0.0);
+            else
+                g.set_weight(i,j, euclidean_distance(nodes[i].coord, nodes[j].coord) );
+        }
+    }
 }
 
 
