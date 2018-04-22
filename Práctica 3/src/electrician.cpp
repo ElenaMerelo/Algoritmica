@@ -39,8 +39,10 @@ void fill_graph(graph &g, ifstream &f)
             number[j]=buffer[j+8];        
         y=atoi(number);
 
-        
+        //TODO: Hay que rellenar el grafo con los nodos.
     }
+
+    //TODO: Calcular distancias entre todos los nodos.
 }
 
 
