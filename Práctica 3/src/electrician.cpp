@@ -45,25 +45,6 @@ int get_dimension(ifstream &f)
 
 void fill_graph(graph &g, ifstream &f)
 {
-    // char buffer[BUFFERSIZE];
-    // char number[5];
-    int x, y;
-
-    // for(int i=0; i<3; i++)
-    // {
-
-    //     f.getline(buffer, BUFFERSIZE);
-
-    //     for(int j=0; j<3; j++)
-    //         number[j]=buffer[j+4];        
-    //     x=atoi(number);
-    //     for(int j=0; j<3; j++)
-    //         number[j]=buffer[j+8];        
-    //     y=atoi(number);
-
-    //     g.add_node( pair<int, int>(x,y) );
-    // }
-
     string line, aux;
     int row[3], i;
     vector< vector<int> > all_integers;
@@ -121,6 +102,8 @@ vector<edge> kruskal(graph &g)
             edges.push_back(edge(i,j,g.get_weight(i,j)));
 
     sort(edges.begin(), edges.end(), compare_by_weight); //Sort the vector of edges.
+
+    for(int i=0; i<edges.size(); i++) cout << edges[i].coord.first << " " << edges[i].coord.second << endl;
 
     vector<edge> solution;
     struct edge candidate;
