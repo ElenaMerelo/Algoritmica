@@ -15,6 +15,8 @@ struct node
     int label;
     pair<int, int> coord;
 
+    node(){}
+
     node(int label_, pair<int, int> coord_)
     {
         label=label_;

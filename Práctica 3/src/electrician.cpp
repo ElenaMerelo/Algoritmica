@@ -13,15 +13,16 @@ using namespace std;
 
 struct edge
 {
-    pair<int, int> coord;
+    struct node p1;
+    struct node p2;
     float weight;
 
     edge(){};
 
-    edge(int x, int y, float weight_)
+    edge(struct node p1_, struct node p2_, float weight_)
     {
-        coord.first=x;
-        coord.second=y;
+        p1=p1_;
+        p2=p2_;
         weight=weight_;
     }
 };
@@ -79,31 +80,32 @@ bool compare_by_weight(const edge& a, const edge& b){ return a.weight < b.weight
 
 bool cycle(vector<edge>& v)
 {
+    vector<node> nodes;
     for(int i=0; i<v.size(); i++)
     {
-        for(int j=0; j<v.size(); j++)
-        {
-            if( v[i].coord.first == v[j].coord.first && i!=j)
-                return true;
-            if( v[i].coord.second == v[j].coord.second && i!=j)
-                return true;
-
-        }
+        nodes.push_back(v[i].p1);
+        nodes.push_back(v[i].p2);       
     }
+
+    for(int i=0; i<nodes.size(); i++)
+        for(int j=0; j<nodes.size(); j++)
+           //TODO: Equal operator for struct node.
+            if( nodes[i].coord.first == nodes[j].coord.first && nodes[i].coord.second == nodes[j].coord.second && i!=j) return true;
+    
     return false;
 }
 
 vector<edge> kruskal(graph &g)
 {
     //First we create a vector with each edge of the grap.
-    vector<edge> edges; 
+    vector<edge> edges;
+    vector<node> nodes=g.get_nodes();
+
     for(int i=0; i<g.size(); i++)
         for(int j=i; j<g.size(); j++)
-            edges.push_back(edge(i,j,g.get_weight(i,j)));
+            edges.push_back(edge(nodes[i],nodes[j],g.get_weight(i,j)));
 
     sort(edges.begin(), edges.end(), compare_by_weight); //Sort the vector of edges.
-
-    for(int i=0; i<edges.size(); i++) cout << edges[i].coord.first << " " << edges[i].coord.second << endl;
 
     vector<edge> solution;
     struct edge candidate;
@@ -149,9 +151,11 @@ int main(int argc, char **argv)
     vector<edge> way=kruskal(G);
 
 
-    // cout << "DIMENSION: " << dimension << endl;
-    // for(int i=0; i<dimension; i++) cout << i+1 << " " << way[i].coord.first << " " << way[i].coord.second << endl;
-
+    cout << "DIMENSION: " << dimension << endl;
+    for(int i=0; i<way.size(); i++){
+        cout << way[i].p1.label << endl;
+        cout << way[i].p2.label << endl;    
+    }
     
 
 }
