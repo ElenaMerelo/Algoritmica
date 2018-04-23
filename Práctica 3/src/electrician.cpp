@@ -114,7 +114,7 @@ vector<edge> kruskal(graph &g)
 {
     //First we create a vector with each edge of the grap.
     vector<edge> edges=generate_all_edges(g);
-    
+
     sort(edges.begin(), edges.end(), compare_by_weight); //Sort the vector of edges.
 
     vector<edge> solution;
@@ -131,10 +131,55 @@ vector<edge> kruskal(graph &g)
 }
 
 
-// vector<edge> kruskal_heuristic(graph &g)
-// {
+int nodeHeuristic(graph &g, int i, float value_default=0){
+    float min=value_default;
+    int index_min=-1;
+    for(int j=i+1; j<g.size(); j++)
+    {
+        if( g.get_weight(i, j) < min )
+        {
+            min=g.get_weight(i,j);
+            index_min=j;
+        }
+    }
+    return index_min;
+}
 
-// }
+vector<edge> kruskal_heuristic(graph &g)
+{
+    vector<edge> solution;    
+    vector<node> nodes=g.get_nodes();
+
+    struct node init=nodes[0]; //Heuristic starts with the first node on the file.
+
+    int nextNode, aux;
+    float weight=0;
+    struct edge nextEdge;
+    while( nodes.size() )
+    {
+        cout << "HOLA" << endl;
+        weight=0;
+        do
+        {
+            nextNode=nodeHeuristic(g, init.label-1, weight);
+            if( nextNode == -1) return vector<edge>(); //NP if the heuristic can not find a node
+
+            nextEdge=edge(init, nodes[nextNode], g.get_weight(init.label-1,nextNode));
+
+            weight=nextEdge.weight;
+
+        } while( cycle(solution, nextEdge) );
+
+        
+        solution.push_back(nextEdge);
+        
+        aux=init.label;
+        init=nodes[nextNode];
+        nodes.erase(nodes.begin()+aux);
+    }
+
+    return solution;
+}
 
 int main(int argc, char **argv)
 {
@@ -159,13 +204,20 @@ int main(int argc, char **argv)
 
     fill_graph(G, f);
 
-    vector<edge> way=kruskal(G);
+    vector<edge> way=kruskal_heuristic(G);
 
-
-    cout << "DIMENSION: " << dimension << endl;
-    for(int i=0; i<way.size(); i++){
-        cout << way[i].p1.label << " " << way[i].p1.coord.first << " " << way[i].p1.coord.second << endl;
-        cout << way[i].p2.label << " " << way[i].p2.coord.first << " " << way[i].p2.coord.second << endl;    
+    if( !way.empty() )
+    {
+        cout << "DIMENSION: " << dimension << endl;
+        for(int i=0; i<way.size(); i++)
+        {
+            cout << way[i].p1.label << " " << way[i].p1.coord.first << " " << way[i].p1.coord.second << endl;
+            cout << way[i].p2.label << " " << way[i].p2.coord.first << " " << way[i].p2.coord.second << endl;    
+        }
+    } 
+    else
+    {
+        cout << "El problema no tiene solucion con el nodo inicial 0" << endl;
     }
     
 
