@@ -78,21 +78,22 @@ void fill_graph(graph &g, ifstream &f)
 bool compare_by_weight(const edge& a, const edge& b){ return a.weight < b.weight; }
 
 
-bool cycle(vector<edge>& v)
+bool cycle(vector<edge>& v, struct edge new_edge)
 {
-    vector<node> nodes;
+    bool inH=false, inI=false;
     for(int i=0; i<v.size(); i++)
     {
-        nodes.push_back(v[i].p1);
-        nodes.push_back(v[i].p2);       
+        if( v[i].p1.coord==new_edge.p1.coord )
+            inH=true;
+        if( v[i].p1.coord==new_edge.p1.coord )
+            inI=true;
     }
 
-    for(int i=0; i<nodes.size(); i++)
-        for(int j=0; j<nodes.size(); j++)
-           //TODO: Equal operator for struct node.
-            if( nodes[i].coord.first == nodes[j].coord.first && nodes[i].coord.second == nodes[j].coord.second && i!=j) return true;
-    
-    return false;
+    if( (!inH && !inI) || (!inH && inI) || (inH && !inI) )
+        return false;
+    else
+        return true;
+
 }
 
 vector<edge> kruskal(graph &g)
@@ -107,20 +108,13 @@ vector<edge> kruskal(graph &g)
 
     sort(edges.begin(), edges.end(), compare_by_weight); //Sort the vector of edges.
 
-    // for(int i=0; i<edges.size(); i++) cout << edges[i].weight << endl;
-
     vector<edge> solution;
-    struct edge candidate;
 
     while(edges.size())
     {
-        candidate=edges[0];
-
-        solution.push_back(candidate);
-
-        if( cycle(solution) )
-            solution.pop_back();
-
+        if( !cycle(solution, edges[0]) )
+            solution.push_back(edges[0]);
+            
         edges.erase(edges.begin());
     }
 
