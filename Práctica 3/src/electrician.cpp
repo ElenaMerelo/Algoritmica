@@ -164,7 +164,7 @@ vector<node> kruskal_heuristic(graph &g)
     vector<edge> solution;    
     vector<node> nodes=g.get_nodes();
 
-    struct node init=nodes[0]; //Heuristic starts with the first node on the file.
+    struct node init=nodes[2]; //Heuristic starts with the first node on the file.
 
     // for(int i=0; i<nodes.size(); i++)
     //     cout << nodes[i].label << endl;
@@ -235,6 +235,10 @@ int main(int argc, char **argv)
     fill_graph(G, f);
 
     vector<node> way=kruskal_heuristic(G);
+
+    float min=LONG_MAX;
+
+
 
     if( !way.empty() )
     {
