@@ -42,7 +42,7 @@ class graph
         
         vector<node> get_nodes(){ return nodes; }
 
-        void add_node(pair<int, int> coord){ nodes.push_back( node(nodes.size()+1, coord)); }
+        void add_node(pair<int, int> coord){ nodes.push_back( node(nodes.size(), coord)); }
 
         int size(){ return weights.size(); }
 
@@ -51,37 +51,3 @@ class graph
         int end(int i){ return weights.size(); }
 };
 
-class heap
-{
-    private:
-        vector<bool> inner_vertexs; 
-        set<pair<int, int> > distance_heap;
-
-    public: 
-        heap(int n){inner_vertexs.resize(n, false); }
-
-        bool in_heap(int v){ return inner_vertexs[v]; }
-
-        void insert(int d, int v){ distance_heap.insert(pair<int, int>(d, v)); inner_vertexs[v]=true; }
-
-        void update(int d, int v)
-        {
-            set<pair<int, int> >::iterator it;
-            
-            for(it=distance_heap.begin(); it!=distance_heap.end() && it->second!=v; ++it)
-            
-            if(it==distance_heap.end()){ cout << "Error: vertex doesnt exist" << endl; exit(0); }
-
-            distance_heap.erase(it);
-            distance_heap.insert( pair<int, int>(d, v) );
-        }
-
-        bool empty() const{ return distance_heap.empty(); }
-
-        pair<int, int> erase_min()
-        {
-            pair<int, int> min = *(distance_heap.begin());
-            distance_heap.erase( distance_heap.begin() );
-            return min;
-        }
-};

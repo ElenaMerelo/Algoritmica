@@ -137,62 +137,78 @@ bool is_in(int j, vector<edge> v)
     bool in=false;
     for(int i=0; i<v.size(); i++)
     {
-        if( v[i].p1.label-1==j && v[i].p2.label-1==j )
+        if( v[i].p1.label==j || v[i].p2.label==j )
             in=true;
     }
     return in;
 }
 
-int nodeHeuristic(graph &g, int i, float value, vector<edge> selected){
+int nodeHeuristic(graph &g, int i, float value, vector<edge> selected, vector<node> nodes){
     float min=LONG_MAX;
     int index_min=-1;
-    for(int j=0; j<g.size(); j++)
+    for(int j=0; j<nodes.size(); j++)
     {
-        if( g.get_weight(i, j) < min && g.get_weight(i,j) > value && !is_in(j, selected))
+        if( g.get_weight(i, nodes[j].label) <= min && g.get_weight(i,nodes[j].label) > value)
         {
             min=g.get_weight(i,j);
             index_min=j;
         }
     }
 
-    cout << is_in(index_min, selected)  << " " << index_min << endl;
+    //cout << "Siguiente nodo encontrado en: " << index_min << endl;
     return index_min;
 }
 
-vector<edge> kruskal_heuristic(graph &g)
+vector<node> kruskal_heuristic(graph &g)
 {
     vector<edge> solution;    
     vector<node> nodes=g.get_nodes();
 
     struct node init=nodes[0]; //Heuristic starts with the first node on the file.
 
+    // for(int i=0; i<nodes.size(); i++)
+    //     cout << nodes[i].label << endl;
+
     int nextNode, aux;
     float weight=0;
     struct edge nextEdge;
+
+    nodes.erase(nodes.begin());
+
     while( nodes.size() )
     {
-        cout << "Buscando nodo siguiente a: " << init.label << endl;
+        //cout << "Buscando nodo siguiente a: " << init.label << endl;
         weight=0;
         do
         {
-            nextNode=nodeHeuristic(g, init.label-1, weight, solution);
-            if( nextNode == -1) return vector<edge>(); //NP if the heuristic can not find a node
+            nextNode=nodeHeuristic(g, init.label, weight, solution, nodes);
+            if( nextNode == -1) return vector<node>(); //NP if the heuristic can not find a node
 
-            nextEdge=edge(init, nodes[nextNode], g.get_weight(init.label-1,nextNode));
+            nextEdge=edge(init, nodes[nextNode], g.get_weight(init.label,nextNode));
 
             weight=nextEdge.weight;
+            //cout << "Forma ciclo: " << cycle(solution, nextEdge) << endl;
 
         } while( cycle(solution, nextEdge) );
 
         
         solution.push_back(nextEdge);
-        
-        aux=init.label-1;
+     //cout << "NODO A ELIMINAR: " << nodes[nextNode].label << endl;
+    // for(int i=0; i<nodes.size(); i++)
+    //     cout << nodes[i].label << endl;
+
+
+        //cout << "Nodo aniadido: " << nextEdge.p2.label << endl;
         init=nodes[nextNode];
-        nodes.erase(nodes.begin()+aux);
+        nodes.erase(nodes.begin()+nextNode);
+
     }
 
-    return solution;
+
+    vector<node> solution_;
+    solution_.push_back(solution[0].p1);
+    for(int i=0; i<solution.size(); i++) solution_.push_back(solution[i].p2);
+    return solution_;
 }
 
 int main(int argc, char **argv)
@@ -218,16 +234,13 @@ int main(int argc, char **argv)
 
     fill_graph(G, f);
 
-    vector<edge> way=kruskal_heuristic(G);
+    vector<node> way=kruskal_heuristic(G);
 
     if( !way.empty() )
     {
         cout << "DIMENSION: " << dimension << endl;
         for(int i=0; i<way.size(); i++)
-        {
-            cout << way[i].p1.label << " " << way[i].p1.coord.first << " " << way[i].p1.coord.second << endl;
-            cout << way[i].p2.label << " " << way[i].p2.coord.first << " " << way[i].p2.coord.second << endl;    
-        }
+            cout << way[i].label << " " << way[i].coord.first << " " << way[i].coord.second << endl;
     } 
     else
     {
