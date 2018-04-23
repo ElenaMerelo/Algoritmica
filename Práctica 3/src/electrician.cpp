@@ -96,16 +96,25 @@ bool cycle(vector<edge>& v, struct edge new_edge)
 
 }
 
+vector<edge> generate_all_edges(graph &g)
+{
+    vector<node> nodes=g.get_nodes();
+    vector<edge> edges;
+
+    for(int k=0; k<g.size()-1; k++)
+        for(int i=0; i<g.size(); i++)
+            for(int j=i+k+1; j<g.size(); j++)
+                edges.push_back(edge(nodes[i],nodes[j],g.get_weight(i,j)));
+
+    return edges;
+
+}
+
 vector<edge> kruskal(graph &g)
 {
     //First we create a vector with each edge of the grap.
-    vector<edge> edges;
-    vector<node> nodes=g.get_nodes();
-
-    for(int i=0; i<g.size(); i++)
-        for(int j=i+1; j<g.size(); j++)
-            edges.push_back(edge(nodes[i],nodes[j],g.get_weight(i,j)));
-
+    vector<edge> edges=generate_all_edges(g);
+    
     sort(edges.begin(), edges.end(), compare_by_weight); //Sort the vector of edges.
 
     vector<edge> solution;
@@ -120,6 +129,12 @@ vector<edge> kruskal(graph &g)
 
     return solution;
 }
+
+
+// vector<edge> kruskal_heuristic(graph &g)
+// {
+
+// }
 
 int main(int argc, char **argv)
 {
