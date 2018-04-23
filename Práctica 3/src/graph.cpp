@@ -42,7 +42,7 @@ class graph
         
         vector<node> get_nodes(){ return nodes; }
 
-        void add_node(pair<int, int> coord){ nodes.push_back( node(nodes.size(), coord)); }
+        void add_node(pair<int, int> coord){ nodes.push_back( node(nodes.size()+1, coord)); }
 
         int size(){ return weights.size(); }
 
