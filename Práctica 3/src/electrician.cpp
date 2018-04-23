@@ -133,16 +133,17 @@ vector<edge> kruskal(graph &g)
 
 
 int nodeHeuristic(graph &g, int i, float value_default=0){
-    float min=value_default;
+    float min=LONG_MAX;
     int index_min=-1;
-    for(int j=i+1; j<g.size(); j++)
+    for(int j=0; j<g.size(); j++)
     {
-        if( g.get_weight(i, j) < min )
+        if( g.get_weight(i, j) < min && g.get_weight(i,j) > value_default)
         {
             min=g.get_weight(i,j);
             index_min=j;
         }
     }
+
     return index_min;
 }
 
@@ -151,14 +152,14 @@ vector<edge> kruskal_heuristic(graph &g)
     vector<edge> solution;    
     vector<node> nodes=g.get_nodes();
 
-    struct node init=nodes[0]; //Heuristic starts with the first node on the file.
+    struct node init=nodes[1]; //Heuristic starts with the first node on the file.
 
     int nextNode, aux;
     float weight=0;
     struct edge nextEdge;
     while( nodes.size() )
     {
-        weight=LONG_MAX;
+        weight=0;
         do
         {
             nextNode=nodeHeuristic(g, init.label-1, weight);
@@ -177,7 +178,7 @@ vector<edge> kruskal_heuristic(graph &g)
         init=nodes[nextNode];
         nodes.erase(nodes.begin()+aux);
     }
-    
+
     return solution;
 }
 
