@@ -6,6 +6,7 @@
 #include "graph.cpp"
 #include <algorithm>
 #include <string>
+#include <limits.h>
 
 using namespace std;
 
@@ -157,8 +158,7 @@ vector<edge> kruskal_heuristic(graph &g)
     struct edge nextEdge;
     while( nodes.size() )
     {
-        cout << "HOLA" << endl;
-        weight=0;
+        weight=LONG_MAX;
         do
         {
             nextNode=nodeHeuristic(g, init.label-1, weight);
@@ -177,7 +177,7 @@ vector<edge> kruskal_heuristic(graph &g)
         init=nodes[nextNode];
         nodes.erase(nodes.begin()+aux);
     }
-
+    
     return solution;
 }
 
