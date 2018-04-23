@@ -103,7 +103,7 @@ vector<edge> kruskal(graph &g)
     vector<node> nodes=g.get_nodes();
 
     for(int i=0; i<g.size(); i++)
-        for(int j=i; j<g.size(); j++)
+        for(int j=i+1; j<g.size(); j++)
             edges.push_back(edge(nodes[i],nodes[j],g.get_weight(i,j)));
 
     sort(edges.begin(), edges.end(), compare_by_weight); //Sort the vector of edges.
@@ -114,7 +114,7 @@ vector<edge> kruskal(graph &g)
     {
         if( !cycle(solution, edges[0]) )
             solution.push_back(edges[0]);
-            
+
         edges.erase(edges.begin());
     }
 
