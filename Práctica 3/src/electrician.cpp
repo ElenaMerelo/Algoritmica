@@ -132,18 +132,30 @@ vector<edge> kruskal(graph &g)
 }
 
 
-int nodeHeuristic(graph &g, int i, float value_default=0){
+bool is_in(int j, vector<edge> v)
+{
+    bool in=false;
+    for(int i=0; i<v.size(); i++)
+    {
+        if( v[i].p1.label-1==j && v[i].p2.label-1==j )
+            in=true;
+    }
+    return in;
+}
+
+int nodeHeuristic(graph &g, int i, float value, vector<edge> selected){
     float min=LONG_MAX;
     int index_min=-1;
     for(int j=0; j<g.size(); j++)
     {
-        if( g.get_weight(i, j) < min && g.get_weight(i,j) > value_default)
+        if( g.get_weight(i, j) < min && g.get_weight(i,j) > value && !is_in(j, selected))
         {
             min=g.get_weight(i,j);
             index_min=j;
         }
     }
 
+    cout << is_in(index_min, selected)  << " " << index_min << endl;
     return index_min;
 }
 
@@ -152,17 +164,18 @@ vector<edge> kruskal_heuristic(graph &g)
     vector<edge> solution;    
     vector<node> nodes=g.get_nodes();
 
-    struct node init=nodes[1]; //Heuristic starts with the first node on the file.
+    struct node init=nodes[0]; //Heuristic starts with the first node on the file.
 
     int nextNode, aux;
     float weight=0;
     struct edge nextEdge;
     while( nodes.size() )
     {
+        cout << "Buscando nodo siguiente a: " << init.label << endl;
         weight=0;
         do
         {
-            nextNode=nodeHeuristic(g, init.label-1, weight);
+            nextNode=nodeHeuristic(g, init.label-1, weight, solution);
             if( nextNode == -1) return vector<edge>(); //NP if the heuristic can not find a node
 
             nextEdge=edge(init, nodes[nextNode], g.get_weight(init.label-1,nextNode));
@@ -174,7 +187,7 @@ vector<edge> kruskal_heuristic(graph &g)
         
         solution.push_back(nextEdge);
         
-        aux=init.label;
+        aux=init.label-1;
         init=nodes[nextNode];
         nodes.erase(nodes.begin()+aux);
     }
