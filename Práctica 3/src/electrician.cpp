@@ -91,14 +91,14 @@ int nodeHeuristic(graph &g, struct node n, float min_bound, vector<node> taken){
     return index_min;
 }
 
-vector<node> kruskal_heuristic2(graph &g, int i)
+vector<node> greedy(graph &g, int begin)
 {
     vector<node> nodes=g.get_nodes();
     vector<node> solution;
     
     int index_nextNode;
 
-    struct node current_node=nodes[i];
+    struct node current_node=nodes[begin];
     bool first_time=true;
     solution.push_back(current_node);
 
@@ -153,13 +153,13 @@ int main(int argc, char **argv)
     graph G(dimension);
     fill_graph(G, f);
 
-    vector<node> way, minimal_way=kruskal_heuristic2(G, 0);
+    vector<node> way, minimal_way=greedy(G, 0);
 
     /*------Uncomment to find the minimal way applyins the heuristic for each node in the graph-----*/
     // float min=LONG_MAX, weight;
     // for(int i=0; i<G.size(); i++)
     // {
-    //     way=kruskal_heuristic2(G, i);
+    //     way=greedy(G, i);
     //     weight=total_weight(G, way);
 
     //     if( weight < min )
