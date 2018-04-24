@@ -186,14 +186,14 @@ int nodeHeuristic(graph &g, struct node n, float min_bound, vector<node> taken){
 //     return solution_;
 // }
 
-vector<node> kruskal_heuristic2(graph &g)
+vector<node> kruskal_heuristic2(graph &g, int i)
 {
     vector<node> nodes=g.get_nodes();
     vector<node> solution;
     
     int index_nextNode;
 
-    struct node current_node=nodes[0];
+    struct node current_node=nodes[i];
     bool first_time=true;
     solution.push_back(current_node);
 
@@ -220,6 +220,13 @@ vector<node> kruskal_heuristic2(graph &g)
 }
 
 
+float total_weight(graph &g, vector<node>& way)
+{
+    float weight=0;
+    for(int i=0; i<way.size()-1; i++) weight+=g.get_weight(way[i].label, way[i+1].label);
+    return weight;
+}   
+
 int main(int argc, char **argv)
 {
     if( argc!=2 )
@@ -243,17 +250,27 @@ int main(int argc, char **argv)
 
     fill_graph(G, f);
 
-    vector<node> way=kruskal_heuristic2(G);
+    vector<node> way, minimal_way;
 
-    float min=LONG_MAX;
+    float min=LONG_MAX, weight;
 
+    for(int i=0; i<G.size(); i++)
+    {
+        way=kruskal_heuristic2(G, i);
+        weight=total_weight(G, way);
 
+        if( weight < min )
+        {
+            minimal_way=way;
+            min=weight;
+        }
+    }
 
-    if( !way.empty() )
+    if( !minimal_way.empty() )
     {
         cout << "DIMENSION: " << dimension << endl;
         for(int i=0; i<way.size(); i++)
-            cout << way[i].label+1 << " " << way[i].coord.first << " " << way[i].coord.second << endl;
+            cout << minimal_way[i].label+1 << " " << minimal_way[i].coord.first << " " << minimal_way[i].coord.second << endl;
     } 
     else
     {
