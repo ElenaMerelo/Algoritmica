@@ -27,7 +27,6 @@ int get_dimension(ifstream &f)
     f.getline(buffer, BUFFERSIZE);
 
     int dimension=atoi(buffer);
-    
 
     return dimension;
 }
@@ -151,37 +150,34 @@ int main(int argc, char **argv)
     }
 
     int dimension=get_dimension(f);
-
     graph G(dimension);
-
     fill_graph(G, f);
 
-    vector<node> way, minimal_way;
+    vector<node> way, minimal_way=kruskal_heuristic2(G, 0);
 
-    float min=LONG_MAX, weight;
+    /*------Uncomment to find the minimal way applyins the heuristic for each node in the graph-----*/
+    // float min=LONG_MAX, weight;
+    // for(int i=0; i<G.size(); i++)
+    // {
+    //     way=kruskal_heuristic2(G, i);
+    //     weight=total_weight(G, way);
 
-    for(int i=0; i<G.size(); i++)
-    {
-        way=kruskal_heuristic2(G, i);
-        weight=total_weight(G, way);
+    //     if( weight < min )
+    //     {
+    //         minimal_way=way;
+    //         min=weight;
+    //     }
+    // }
 
-        if( weight < min )
-        {
-            minimal_way=way;
-            min=weight;
-        }
-    }
-
+    /*-------SHOW THE GRAPH (in TSP format)--------*/
     if( !minimal_way.empty() )
     {
         cout << "DIMENSION: " << dimension << endl;
-        for(int i=0; i<way.size(); i++)
+        for(int i=0; i<minimal_way.size(); i++)
             cout << minimal_way[i].label+1 << " " << minimal_way[i].coord.first << " " << minimal_way[i].coord.second << endl;
     } 
     else
     {
         cout << "El problema no tiene solucion con el nodo inicial 0" << endl;
     }
-    
-
 }

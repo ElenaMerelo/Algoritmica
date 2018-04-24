@@ -1,0 +1,68 @@
+\documentclass[11pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage[hmargin=2cm]{geometry}
+\usepackage{color} 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92} 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+\begin{document}
+\begin{titlepage}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\center
+\textsc{\LARGE Universidad de Granada}\\[1.5cm] % Name of your university/college
+\textsc{\Large Algorítmica}\\[0.5cm] % Major heading such as course name
+\textsc{\large Memoria de Prácticas}\\[0.5cm] % Minor heading such as course title
+\HRule \\[0.4cm]
+{ \huge \bfseries Práctica III: Greedy}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Autores:}\\
+Antonio Gámiz Delgado\textsc{} % Your name
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{} \\
+\textsc{} % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[2cm]
+{\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
+\includegraphics{logo.png}\\[1cm]
+\vfill % Fill the rest of the page with whitespace
+\end{titlepage}
+
+\section{Problema}
+
+Un electricista necesita hacer $n$ reparaciones urgentes, y sabe de antemano el tiempo que le va a llevar cada una de ellas: en la tarea $i$-ésima tardará $t_i$ minutos. Como en su empresa le pagan dependiendo de la satisfacción del cliente, necesita decidir el orden en el que atenderá los avisos para minimizar el tiempo medio de atención de los clientes (desde el inicio hasta que su reparación sea efectuada).
+
+\section{Diseño del algoritmo Greedy}
+
+
+\end{document}
