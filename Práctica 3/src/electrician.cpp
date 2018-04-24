@@ -82,22 +82,16 @@ void fill_graph(graph &g, ifstream &f)
 bool compare_by_weight(const edge& a, const edge& b){ return a.weight < b.weight; }
 
 
-bool cycle(vector<edge>& v, struct edge new_edge)
+bool cycle(vector<node>& v, struct node new_node)
 {
-    bool inH=false, inI=false;
+    bool isCycle=false;
     for(int i=0; i<v.size(); i++)
     {
-        if( v[i].p1.coord==new_edge.p1.coord )
-            inH=true;
-        if( v[i].p1.coord==new_edge.p1.coord )
-            inI=true;
+        if( v[i].label==new_node.label )
+            return true;
     }
 
-    if( (!inH && !inI) || (!inH && inI) || (inH && !inI) )
-        return false;
-    else
-        return true;
-
+    return isCycle;
 }
 
 vector<edge> generate_all_edges(graph &g)
@@ -135,22 +129,34 @@ vector<edge> kruskal(graph &g)
 }
 
 
-bool is_in(int j, vector<edge> v)
+bool is_in(int j, vector<node> v)
 {
     bool in=false;
     for(int i=0; i<v.size(); i++)
     {
-        if( v[i].p1.label==j || v[i].p2.label==j )
+        if( v[i].label==j )
             in=true;
     }
     return in;
 }
 
-int nodeHeuristic(graph &g, struct node n, vector<node> taken){
+int nodeHeuristic(graph &g, struct node n, bool first_time, float weight, vector<node> taken){
     float min=LONG_MAX;
     int index_min=-1;
+    float current_weight, min_bound=0;
 
+    if(!first_time)
+        min_bound=weight;
     
+    for(int i=0; i<g.size(); i++)
+    {
+        current_weight=g.get_weight(i, n.label);
+        if( current_weight > 0 && current_weight < min && current_weight > min_bound && !is_in(i, taken) )
+        {
+            min=current_weight;
+            index_min=i;
+        }        
+    }
 
     return index_min;
 }
@@ -198,6 +204,16 @@ int nodeHeuristic(graph &g, struct node n, vector<node> taken){
 
 vector<node> kruskal_heuristic2(graph &g)
 {
+    vector<node> nodes=g.get_nodes();
+    vector<node> solution;
+    
+    solution.push_back(nodes[0]);
+
+    do
+    {
+
+    }
+
     return vector<node>();
 }
 
