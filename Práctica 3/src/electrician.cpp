@@ -84,14 +84,7 @@ bool compare_by_weight(const edge& a, const edge& b){ return a.weight < b.weight
 
 bool cycle(vector<node>& v, struct node new_node)
 {
-    bool isCycle=false;
-    for(int i=0; i<v.size(); i++)
-    {
-        if( v[i].label==new_node.label )
-            return true;
-    }
-
-    return isCycle;
+    return is_in(new_node.label, v);
 }
 
 vector<edge> generate_all_edges(graph &g)
@@ -129,15 +122,14 @@ vector<edge> kruskal(graph &g)
 }
 
 
-bool is_in(int j, vector<node> v)
+bool is_in(int j, vector<node>& v)
 {
-    bool in=false;
     for(int i=0; i<v.size(); i++)
     {
         if( v[i].label==j )
-            in=true;
+            return true;
     }
-    return in;
+    return false;
 }
 
 int nodeHeuristic(graph &g, struct node n, bool first_time, float weight, vector<node> taken){
