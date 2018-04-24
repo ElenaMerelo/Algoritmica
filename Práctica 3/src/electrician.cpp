@@ -1,3 +1,6 @@
+
+//g++ ./src/electrician.cpp -o ./bin/electrician; ./bin/electrician ./datosTSP/att48.tsp > ./datosTSP/OPTIMOS.opt.tour
+
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -143,73 +146,61 @@ bool is_in(int j, vector<edge> v)
     return in;
 }
 
-int nodeHeuristic(graph &g, int i, float value, vector<edge> selected, vector<node> nodes){
+int nodeHeuristic(graph &g, struct node n, vector<node> taken){
     float min=LONG_MAX;
     int index_min=-1;
-    for(int j=0; j<nodes.size(); j++)
-    {
-        if( g.get_weight(i, nodes[j].label) <= min && g.get_weight(i,nodes[j].label) > value)
-        {
-            min=g.get_weight(i,j);
-            index_min=j;
-        }
-    }
 
-    //cout << "Siguiente nodo encontrado en: " << index_min << endl;
+    
+
     return index_min;
 }
 
-vector<node> kruskal_heuristic(graph &g)
-{
-    vector<edge> solution;    
-    vector<node> nodes=g.get_nodes();
+// vector<node> kruskal_heuristic(graph &g)
+// {
+//     vector<edge> solution;    
+//     vector<node> nodes=g.get_nodes();
 
-    struct node init=nodes[2]; //Heuristic starts with the first node on the file.
+//     struct node init=nodes[2]; //Heuristic starts with the first node on the file.
 
-    // for(int i=0; i<nodes.size(); i++)
-    //     cout << nodes[i].label << endl;
+//     int nextNode, aux;
+//     float weight=0;
+//     struct edge nextEdge;
 
-    int nextNode, aux;
-    float weight=0;
-    struct edge nextEdge;
+//     nodes.erase(nodes.begin());
 
-    nodes.erase(nodes.begin());
+//     while( nodes.size() )
+//     {
+//         weight=0;
+//         do
+//         {
+//             nextNode=nodeHeuristic(g, init.label, weight, solution, nodes);
+//             if( nextNode == -1) return vector<node>(); //NP if the heuristic can not find a node
 
-    while( nodes.size() )
-    {
-        //cout << "Buscando nodo siguiente a: " << init.label << endl;
-        weight=0;
-        do
-        {
-            nextNode=nodeHeuristic(g, init.label, weight, solution, nodes);
-            if( nextNode == -1) return vector<node>(); //NP if the heuristic can not find a node
+//             nextEdge=edge(init, nodes[nextNode], g.get_weight(init.label,nextNode));
 
-            nextEdge=edge(init, nodes[nextNode], g.get_weight(init.label,nextNode));
-
-            weight=nextEdge.weight;
-            //cout << "Forma ciclo: " << cycle(solution, nextEdge) << endl;
-
-        } while( cycle(solution, nextEdge) );
+//             weight=nextEdge.weight;
+//         } while( cycle(solution, nextEdge) );
 
         
-        solution.push_back(nextEdge);
-     //cout << "NODO A ELIMINAR: " << nodes[nextNode].label << endl;
-    // for(int i=0; i<nodes.size(); i++)
-    //     cout << nodes[i].label << endl;
+//         solution.push_back(nextEdge);
+
+//         init=nodes[nextNode];
+//         nodes.erase(nodes.begin()+nextNode);
+
+//     }
 
 
-        //cout << "Nodo aniadido: " << nextEdge.p2.label << endl;
-        init=nodes[nextNode];
-        nodes.erase(nodes.begin()+nextNode);
+//     vector<node> solution_;
+//     solution_.push_back(solution[0].p1);
+//     for(int i=0; i<solution.size(); i++) solution_.push_back(solution[i].p2);
+//     return solution_;
+// }
 
-    }
-
-
-    vector<node> solution_;
-    solution_.push_back(solution[0].p1);
-    for(int i=0; i<solution.size(); i++) solution_.push_back(solution[i].p2);
-    return solution_;
+vector<node> kruskal_heuristic2(graph &g)
+{
+    return vector<node>();
 }
+
 
 int main(int argc, char **argv)
 {
@@ -234,7 +225,7 @@ int main(int argc, char **argv)
 
     fill_graph(G, f);
 
-    vector<node> way=kruskal_heuristic(G);
+    vector<node> way=kruskal_heuristic2(G);
 
     float min=LONG_MAX;
 
