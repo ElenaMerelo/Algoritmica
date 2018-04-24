@@ -81,6 +81,16 @@ void fill_graph(graph &g, ifstream &f)
 
 bool compare_by_weight(const edge& a, const edge& b){ return a.weight < b.weight; }
 
+bool is_in(int j, vector<node>& v)
+{
+    for(int i=0; i<v.size(); i++)
+    {
+        if( v[i].label==j )
+            return true;
+    }
+    return false;
+}
+
 bool cycle(vector<node>& v, struct node new_node){ return is_in(new_node.label, v); }
 
 vector<edge> generate_all_edges(graph &g)
@@ -97,41 +107,30 @@ vector<edge> generate_all_edges(graph &g)
 
 }
 
-vector<edge> kruskal(graph &g)
-{
-    //First we create a vector with each edge of the grap.
-    vector<edge> edges=generate_all_edges(g);
+// vector<edge> kruskal(graph &g)
+// {
+//     //First we create a vector with each edge of the grap.
+//     vector<edge> edges=generate_all_edges(g);
 
-    sort(edges.begin(), edges.end(), compare_by_weight); //Sort the vector of edges.
+//     sort(edges.begin(), edges.end(), compare_by_weight); //Sort the vector of edges.
 
-    vector<edge> solution;
+//     vector<edge> solution;
 
-    while(edges.size())
-    {
-        if( !cycle(solution, edges[0]) )
-            solution.push_back(edges[0]);
+//     while(edges.size())
+//     {
+//         if( !cycle(solution, edges[0]) )
+//             solution.push_back(edges[0]);
 
-        edges.erase(edges.begin());
-    }
+//         edges.erase(edges.begin());
+//     }
 
-    return solution;
-}
+//     return solution;
+// }
 
-
-bool is_in(int j, vector<node>& v)
-{
-    for(int i=0; i<v.size(); i++)
-    {
-        if( v[i].label==j )
-            return true;
-    }
-    return false;
-}
-
-int nodeHeuristic(graph &g, struct node n, float weight, vector<node> taken){
+int nodeHeuristic(graph &g, struct node n, float min_bound, vector<node> taken){
     float min=LONG_MAX;
     int index_min=-1;
-    float current_weight, min_bound=0;
+    float current_weight;
     
     for(int i=0; i<g.size(); i++)
     {
@@ -192,20 +191,32 @@ vector<node> kruskal_heuristic2(graph &g)
     vector<node> nodes=g.get_nodes();
     vector<node> solution;
     
+    int index_nextNode;
+
     struct node current_node=nodes[0];
     bool first_time=true;
     solution.push_back(current_node);
 
 
     struct node nextNode;
-    do
+    first_time=true;
+    
+    while(solution.size() < nodes.size())
     {
-        nextNode=nodes[nodeHeuristic(g, current_node, (first_time)? 0:g.get_weight(current_node.label, nextNode.label))];
-        
-        first_time=false;
+        do
+        {
+            index_nextNode=nodeHeuristic(g, current_node, (first_time)? 0:g.get_weight(current_node.label, nextNode.label), solution);
+            if( index_nextNode==-1 ) return vector<node>();
+            nextNode=nodes[index_nextNode];
+            
+            first_time=false;
+        } while( cycle( solution, nextNode ) );
+    
+        solution.push_back(nextNode);
+        current_node=nextNode;
     }
 
-    return vector<node>();
+    return solution;
 }
 
 
@@ -242,7 +253,7 @@ int main(int argc, char **argv)
     {
         cout << "DIMENSION: " << dimension << endl;
         for(int i=0; i<way.size(); i++)
-            cout << way[i].label << " " << way[i].coord.first << " " << way[i].coord.second << endl;
+            cout << way[i].label+1 << " " << way[i].coord.first << " " << way[i].coord.second << endl;
     } 
     else
     {
