@@ -52,7 +52,6 @@ void fill_graph(graph &g, ifstream &f)
         g.add_node( pair<int, int>(row[1],row[2]) );
     }
 
-
     vector<node> nodes=g.get_nodes();
     for(int i=0; i<nodes.size(); i++){ //FIXME: Matrix is simetric.
         for(int j=0; j<nodes.size(); j++){
@@ -100,7 +99,6 @@ vector<vector<node> > greedy(graph &g, int begin, int n_electricians)
     vector<vector<node> > solution(n_electricians);
     vector<node> taken;
 
-    // run ./datosTSP/att48.tsp 1
     int index_nextNode;
 
     struct node current_node=nodes[begin];

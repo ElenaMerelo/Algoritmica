@@ -66,6 +66,7 @@ Un electricista necesita hacer $n$ reparaciones urgentes, y sabe de antemano el 
 
 A continuación voy a explicar el algoritmo que he diseñado para resolver este problema, primero voy a exponer de las partes (más bien funciones) de las que se compone y luego explicaré como trabaja.
 
+
 \begin{lstlisting}[language=C++, caption=Función obejtivo]
 vector<node> greedy(graph &g, int begin)
 {
@@ -82,15 +83,16 @@ vector<node> greedy(graph &g, int begin)
 	
 		while(solution.size() < nodes.size())
 		{
-		do
-		{
-			index_nextNode=nodeHeuristic(g, current_node, (first_time)? 0:g.get_weight(current_node.label, nextNode.label), solution);
-			if( index_nextNode==-1 ) return vector<node>();
-			
-			nextNode=nodes[index_nextNode];
-			
-			first_time=false;
-		} while( cycle( solution, nextNode ) );
+		first_time=true;
+			do
+			{
+				index_nextNode=nodeHeuristic(g, current_node, (first_time)? 0:g.get_weight(current_node.label, nextNode.label), solution);
+				if( index_nextNode==-1 ) return vector<node>();
+				
+				nextNode=nodes[index_nextNode];
+				
+				first_time=false;
+			} while( cycle( solution, nextNode ) );
 	
 		solution.push_back(nextNode);
 		current_node=nextNode;
@@ -135,6 +137,67 @@ Además, si el nodo con índice $index\_min$ que encuentra está ya en la soluci
 El parámetro $min\_bound$ es muy importante, se encarga de fijar la cota inferior del mínimo, es decir, la función $nodeHeuristic$ busca el arco en la matriz de adyacencia justamente superior al valor de $min\_bound$. Esto lo hago debido a que si la función ha sido llamada alguna vez (cosa que compruebo con la variable $bool$ $first\_time$ en $greedy$), y la función $cycle$ ha detectado que ese nodo \textcolor{red}{forma un ciclo}, entonces hay que desecharlo, por lo que para que no encuentre ese nodo otra vez, busco el valor superior.
 Como vemos, si esta función no encuentra un nodo que no forme ciclo con distancia mínima, entonces devuelve -1, indicando a la función $greedy$ que el algoritmo no puede encontrar una solución.
 
+
+\section{Adaptación a n electricistas}
+
+
+Para adaptar el problema a un número $n$ de electricistas he adapto el algoritmo $greedy$ (el resto de funciones no es necesario adaptarlas) de la siguiente forma:
+\begin{lstlisting}[language=C++, caption=Adaptación del algoritmo]
+vector<vector<node> > greedy(graph &g, int begin, int n_electricians)
+{
+	vector<node> nodes=g.get_nodes();
+	vector<vector<node> > solution(n_electricians);
+	vector<node> taken;
+	
+	int index_nextNode;
+	
+	struct node current_node=nodes[begin];
+	taken.push_back(current_node);
+	bool first_time=true;
+	
+	for(int i=0; i<n_electricians; i++)
+	solution[i].push_back(current_node);
+	
+	
+	struct node nextNode;
+	first_time=true;
+	int j=0;
+		while( taken.size() < nodes.size() )
+		{
+			if(j==n_electricians) j=0;
+			current_node=solution[j].back();
+
+			/*------------searching next node-----------*/
+			first_time=true;
+			do
+			{
+				index_nextNode=nodeHeuristic(g, current_node, (first_time)? 0:g.get_weight(current_node.label, nextNode.label), taken);
+				if( index_nextNode==-1 ) return vector<vector<node> >();
+				nextNode=nodes[index_nextNode];
+				
+				first_time=false;
+			} while( cycle( solution[j], nextNode ) );
+			/*------------searching next node-----------*/
+
+			solution[j].push_back(nextNode);
+			taken.push_back(nextNode);
+			j++;
+		}
+
+	return solution;
+}
+\end{lstlisting}
+
+Lo que he hecho es "repartir" el trabajo entre los $n$ electricistas. Todos empiezan desde el mismo nodo (esto lo he supuesto yo porque parece evidente que todos los electricistas salgan de la misma empresa), de forma que el primer electricista, va al nodo más cercano, el siguiente electricista va a al segundo nodo más cercano, y así hasta que el $n$-ésimo electricista vaya al $n$-ésimo nodo más cercano.
+
+Todos estos caminos los he guardado en $vector<vector<node> > solution$, y los nodos que ya han sido recorrido los he ido guardando en $vector<node> taken$.
+
+El resto es exactamente igual al algoritmo explicado anteriormente.
+
+
+\hfill \break
+
+\textcolor{red}{[Aclaración]:} en ninguno de los algoritmos cierro el camino, ya que el problema busca que los problemas sean resueltos en el menor tiempo posible, por lo que el tiempo que tardaría en volver el electricista después de haber terminado el último trabajo, no influye en el tiempo que ha tardado en realizar los anteriores.
 
 
 \end{document}
