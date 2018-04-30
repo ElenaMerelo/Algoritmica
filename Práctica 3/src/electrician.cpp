@@ -35,7 +35,7 @@ void fill_graph(graph &g, ifstream &f)
 {
     string line, aux;
     int row[3], i;
-    vector< vector<int> > all_integers;
+    
     while ( getline( f, line ) ) {
         stringstream is( line );
         i=0;
@@ -45,14 +45,15 @@ void fill_graph(graph &g, ifstream &f)
             row[i]=atoi(aux.c_str());
             i++;
         }
-
-        g.add_node( pair<int, int>(row[1],row[2]) );
+        g.add_node( pair<int, int> (row[1],row[2]) );
     }
 
 
     vector<node> nodes=g.get_nodes();
-    for(int i=0; i<nodes.size(); i++){ //FIXME: Matrix is simetric.
-        for(int j=0; j<nodes.size(); j++){
+    for(int i=0; i<nodes.size(); i++)
+    {
+        for(int j=0; j<nodes.size(); j++)
+        {
             if(i==j)
                 g.set_weight(i,j,0.0);
             else
@@ -174,6 +175,7 @@ int main(int argc, char **argv)
     if( !minimal_way.empty() )
     {
         cout << "DIMENSION: " << dimension << endl;
+        cout << "Peso del camino: " << total_weight(G, minimal_way) << endl;
         for(int i=0; i<minimal_way.size(); i++)
             cout << minimal_way[i].label+1 << " " << minimal_way[i].coord.first << " " << minimal_way[i].coord.second << endl;
     } 
