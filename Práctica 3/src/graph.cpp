@@ -9,6 +9,7 @@
 #include <math.h>
 #include <set>
 #include <iostream>
+#include <limits.h>
 
 using namespace std;
 
@@ -25,13 +26,20 @@ class graph{
     void fill(const vector<city> &v);
     bool end_path();
     bool cycle(vector<int> path, int node);
+    void clear();
 
   public:
     graph(const char* fichero);
-    vector<int> min_path(int i, double &l);
+
+    vector<int> optimal_path(double &l_min);
+
+    vector<int> min_path1(int i, double &l);
+    vector<int> min_path2(int i, double &l);
+    vector<int> min_path3(int i, double &l);
+    
 };
 
-bool graph::end_path(){ return count(cities.begin(), cities.end(), false) == 0; }
+bool graph::end_path(){ return count(visited.begin(), visited.end(), false) == 0; }
 
 bool graph::cycle(vector<int> path, int node){
   for(unsigned int i= 0; i<path.size(); i++)
@@ -82,8 +90,30 @@ graph::graph(const char *file){
   f.close();
 }
 
+void graph::clear(){
+  visited.clear();
+  visited.resize(m.size(), false);
+}
 
-vector<int> graph::min_path(int i, double &l){
+vector<int> graph::optimal_path(double &l_min){
+  double l= 0;
+  l_min= LONG_MAX;
+  vector<int> current, min;
+  for(int i=0; i<m.size(); i++){
+    l= 0; clear();
+    current= min_path1(i, l);
+    if(l< l_min){
+      min= current;
+      l_min= l;
+    }
+  }
+  
+  return min;
+}
+
+
+
+vector<int> graph::min_path1(int i, double &l){
   int n=cities.size(), j;
 
   set<pair<double, int> > posibilities;
@@ -121,9 +151,14 @@ vector<int> graph::min_path(int i, double &l){
 
   //Para cerrar el camino
   r.push_back( (*r.end()) );
-  l+=euclidean_distance( cities[r[0]], cities[r[r.size()-1]] );
+  l+=euclidean_distance( cities[r[0]], cities[r[r.size()-2]] );
 
   return r;
+}
+
+vector<int> graph::min_path2(int i, double &l)
+{
+  
 }
 
 #endif
