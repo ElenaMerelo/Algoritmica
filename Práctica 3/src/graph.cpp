@@ -27,9 +27,15 @@ class graph{
     bool end_path();
     bool cycle(vector<int> path, int node);
     void clear();
-
+    int east_city();
+    int west_city();
+    int north_city();
+    
   public:
     graph(const char* fichero);
+
+    double get_weight(int i, int j);
+    double total_weight(vector<int> path);
 
     vector<int> optimal_path(double &l_min);
 
@@ -38,6 +44,12 @@ class graph{
     vector<int> min_path3(int i, double &l);
     
 };
+
+double graph::get_weight(int i, int j){
+  if( i==j ) return 0;
+  else if( i>j ) return m[i][j];
+  else return m[j][i];
+}
 
 bool graph::end_path(){ return count(visited.begin(), visited.end(), false) == 0; }
 
@@ -156,9 +168,48 @@ vector<int> graph::min_path1(int i, double &l){
   return r;
 }
 
+int graph::west_city(){
+  double x=LONG_MAX;
+  int index;
+  for(int i=0; i<cities.size(); i++)
+    if( cities[i].first < x ){
+      x=cities[i].first;
+      index=i;
+    }
+  return index;
+}
+
+int graph::east_city(){
+  double x=-LONG_MAX;
+  int index;
+  for(int i=0; i<cities.size(); i++)
+    if( cities[i].first > x ){
+      x=cities[i].first;
+      index=i;
+    }
+  return index;
+}
+
+int graph::north_city(){
+  double x=-LONG_MAX;
+  int index;
+  for(int i=0; i<cities.size(); i++)
+    if( cities[i].second > x ){
+      x=cities[i].second;
+      index=i;
+    }
+  return index;
+}
+
+double graph::total_weight(vector<int> path){
+  double l;
+  for(int i=0; i<path.size()-1; i++)
+    l+=get_weight(path[i], path[i+1]);
+}
+
 vector<int> graph::min_path2(int i, double &l)
 {
-  
+  vector<int> r;
 }
 
 #endif
