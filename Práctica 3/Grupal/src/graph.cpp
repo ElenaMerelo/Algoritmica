@@ -1,3 +1,6 @@
+
+//g++ ./src/main.cpp -o ./bin/main
+
 #ifndef __MATRIZ_DE_ADYACENCIA__
 #define __MATRIZ_DE_ADYACENCIA__
 
@@ -43,14 +46,17 @@ class graph{
     vector<int> optimal_path(double &l_min);
 
     int nearest_city(int i, double &min_dist);
+
     vector<int> min_path1(int i, double &l);
     vector<int> min_path2(double &l);
     vector<int> min_path3(int i, double &l);
 
 };
 
-double graph::get_weight(int i, int j){
+/*==============================================================*/
 
+double graph::get_weight(int i, int j){
+  
   assert(i<cities.size() && j<cities.size());
 
   if( i==j ) return 0;
@@ -58,7 +64,11 @@ double graph::get_weight(int i, int j){
   else return m[i][j];
 }
 
+/*==============================================================*/
+
 bool graph::finished_path(){ return count(visited.begin(), visited.end(), false) == 0; }
+
+/*==============================================================*/
 
 bool graph::cycle(vector<int> path, int node){
   for(unsigned int i= 0; i<path.size(); i++)
@@ -66,6 +76,8 @@ bool graph::cycle(vector<int> path, int node){
       return true;
   return false;
 }
+
+/*==============================================================*/
 
 void graph::fill(const vector<city> &v){
   int n= v.size();
@@ -78,6 +90,8 @@ void graph::fill(const vector<city> &v){
     for(int j=i+1; j<n; j++)
       m[i][j]= euclidean_distance(v[i], v[j]);
 }
+
+/*==============================================================*/
 
 graph::graph(const char *file){
   int num_cities, n;
@@ -109,10 +123,14 @@ graph::graph(const char *file){
   f.close();
 }
 
+/*==============================================================*/
+
 void graph::clear(){
   visited.clear();
   visited.resize(m.size(), false);
 }
+
+/*==============FUNCION AUXLIAR PARA SOLUCION 1==============*/
 
 void graph::close_path(vector<int> &path, double &longitud){
   int j= path.back(), i= path.front();
@@ -125,22 +143,6 @@ void graph::close_path(vector<int> &path, double &longitud){
   path.push_back(i);
 }
 
-vector<int> graph::optimal_path(double &l_min){
-  double l= 0;
-  l_min= LONG_MAX;
-  vector<int> current, min;
-
-  for(int i=0; i<m.size(); i++){
-    l= 0; clear();
-    current= min_path1(i, l);
-    if(l< l_min){
-      min= current;
-      l_min= l;
-    }
-  }
-
-  return min;
-}
 
 int graph::nearest_city(int i, double &min_dist){
   int j, n= cities.size();
@@ -169,6 +171,7 @@ int graph::nearest_city(int i, double &min_dist){
   return it->second;
 }
 
+/*==========================SOLUCION 1==========================*/
 
 vector<int> graph::min_path1(int i, double &l){
   int n= cities.size(), j;
@@ -195,6 +198,8 @@ vector<int> graph::min_path1(int i, double &l){
 
   return r;
 }
+
+/*==============FUNCIONES AUXLIARES PARA SOLUCION 2==============*/
 
 int graph::westernmost_city(){
   double x=LONG_MAX;
@@ -230,6 +235,8 @@ int graph::northernmost_city(){
   return index;
 }
 
+/*==============================================================*/
+
 double graph::total_weight(vector<int> path){
   double l=0;
   for(int i=0; i<path.size()-1; i++){
@@ -240,7 +247,8 @@ double graph::total_weight(vector<int> path){
   return l;
 }
 
-//Devuelve el indice <i> tal que al inserta la ciudad <x> el camino es el minimo
+/*==============================================================*/
+
 pair<int, double> graph::particular_min(vector<int>& path, int x){
   double aux=0, min=LONG_MAX;
   int index;
@@ -260,9 +268,6 @@ pair<int, double> graph::particular_min(vector<int>& path, int x){
   return make_pair(index, min);
 }
 
-//Devuelve un par <i,j> donde 'i' es el indice de la ciudad a insertar
-//y 'j' es la posicion de 'r' tal que al insertar 'i' en 'j' el incremento
-//del camino es minimo
 pair<int, int> graph::general_min(vector<int> &r){
 
   set<pair<double,pair<int, int> > >posibilities;
@@ -279,8 +284,8 @@ pair<int, int> graph::general_min(vector<int> &r){
 
 }
 
-//Calcula el camino minimo de un grafo utilizando un triangulo
-//formado por las ciudades mas al oeste, este y sur
+/*==========================SOLUCION 2==========================*/
+
 vector<int> graph::min_path2(double &l){
   clear();
   vector<int> r;
@@ -300,8 +305,9 @@ vector<int> graph::min_path2(double &l){
 
   l=total_weight(r);
   return r;
-
 }
+
+/*==========================SOLUCION 3==========================*/
 
 vector<int> graph::min_path3(int i, double &l){
   clear();
@@ -327,5 +333,8 @@ vector<int> graph::min_path3(int i, double &l){
   l=total_weight(r);
   return r;
 }
+
+/*==============================================================*/
+
 
 #endif
