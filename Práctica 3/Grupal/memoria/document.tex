@@ -68,7 +68,7 @@
 \textsc{\Large Algorítmica}\\[0.5cm] % Major heading such as course name
 \textsc{\large Memoria de Prácticas}\\[0.5cm] % Minor heading such as course title
 \HRule \\[0.4cm]
-{ \huge \bfseries Práctica III: Greedy}\\[0.4cm] % Title of your document
+{ \huge \bfseries Práctica III: Algoritmos greedy}\\[0.4cm] % Title of your document
 \HRule \\[1.5cm]
 \begin{minipage}{0.4\textwidth}
 \begin{flushleft} \large
@@ -91,7 +91,7 @@ Antonio Gámiz Delgado\textsc{} % Your name
 
 \section{Problema}
 
-Dado un conjunto de ciudades y una matriz con las distancias entre todas ellas, un viajante debe recorrer todas las ciudades exactamente una vez, regresando al punto de partida, de forma tal que la distancia recorrida sea mínima. Mas formalmente, dado un grafo G, conexo y ponderado, se trata de hallar el ciclo hamiltoniano de mínimo peso de ese grafo.
+Dado un conjunto de ciudades y una matriz con las distancias entre todas ellas, un viajante debe recorrer todas las ciudades exactamente una vez, regresando al punto de partida, de forma tal que la distancia recorrida sea mínima. Más formalmente, dado un grafo G, conexo y ponderado, se trata de hallar el ciclo hamiltoniano de mínimo peso de ese grafo.
 
 \section{Problema del Viajante de Comercio (solución 1)}
 Para esta solución hemos precisado de un método aparte:
@@ -211,7 +211,7 @@ int graph::easternmost_city(){
 }
 \end{lstlisting}
 
-Estas funciones no tienen mucho que explicar, simplemente recorren un vector llamado $cities$ en el que están almacenadas las ciudades y hayan el mínimo (ciudad más al oeste) y el máximo (ciudad más al este) de las coordenadas $x$, además del máximo de las coordenadas $y$ (más al norte).
+Estas funciones no tienen mucho que explicar, únicamente recorren un vector llamado $cities$ en el que están almacenadas las ciudades y hayan el mínimo (ciudad más al oeste) y el máximo (ciudad más al este) de las coordenadas $x$, además del máximo de las coordenadas $y$ (más al norte).
 
 \begin{lstlisting}[language=C++, caption=Hallar el peso de un camino cerrado]
 double graph::total_weight(vector<int> path){

@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.4.24)  1 MAY 2018 11:11
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.2.22)  1 MAY 2018 16:17
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **document.tex
 (./document.tex
 LaTeX2e <2016/02/01>
-Babel <3.9q> and hyphenation patterns for 81 language(s) loaded.
+Babel <3.9q> and hyphenation patterns for 14 language(s) loaded.
 (/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
 Document Class: article 2014/09/29 v1.4h Standard LaTeX document class
 (/usr/share/texlive/texmf-dist/tex/latex/base/size11.clo
@@ -678,12 +678,12 @@ LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <10.95> not available
  [5] [6] [7]
 (./document.aux) ) 
 Here is how much of TeX's memory you used:
- 16098 strings out of 493029
- 297253 string characters out of 6136234
- 482287 words of memory out of 5000000
- 19322 multiletter control sequences out of 15000+600000
+ 16098 strings out of 494456
+ 297253 string characters out of 6171385
+ 478515 words of memory out of 5000000
+ 19210 multiletter control sequences out of 15000+600000
  11222 words of font info for 41 fonts, out of 8000000 for 9000
- 1141 hyphenation exceptions out of 8191
+ 286 hyphenation exceptions out of 8191
  62i,8n,115p,952b,1720s stack positions out of 5000i,500n,10000p,200000b,80000s
 </usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
 /cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmcsc
@@ -697,7 +697,7 @@ onts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/t
 ype1/public/amsfonts/cm/cmti12.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
 ublic/amsfonts/cm/cmtt10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
 amsfonts/cm/cmtt9.pfb>
-Output written on document.pdf (8 pages, 171251 bytes).
+Output written on document.pdf (8 pages, 171497 bytes).
 PDF statistics:
  84 PDF objects out of 1000 (max. 8388607)
  59 compressed objects within 1 object stream
