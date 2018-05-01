@@ -30,6 +30,8 @@ class graph{
     int east_city();
     int west_city();
     int north_city();
+    pair<int, double> particular_min(vector<int>& path, int x);
+    pair<int, int> total_min(vector<int> &r);
     
   public:
     graph(const char* fichero);
@@ -46,9 +48,12 @@ class graph{
 };
 
 double graph::get_weight(int i, int j){
+  
+  assert(i<cities.size() && j<cities.size());
+  
   if( i==j ) return 0;
-  else if( i>j ) return m[i][j];
-  else return m[j][i];
+  else if( i>j ) return m[j][i];
+  else return m[i][j];
 }
 
 bool graph::end_path(){ return count(visited.begin(), visited.end(), false) == 0; }
@@ -202,14 +207,101 @@ int graph::north_city(){
 }
 
 double graph::total_weight(vector<int> path){
-  double l;
-  for(int i=0; i<path.size()-1; i++)
+  double l=0;
+  for(int i=0; i<path.size()-1; i++){
     l+=get_weight(path[i], path[i+1]);
+  }
+  //Para cerrar el camino
+  l+=get_weight(path[0], path[path.size()-1]); 
+  return l;
 }
 
-vector<int> graph::min_path2(int i, double &l)
-{
+//Devuelve el indice <i> tal que al inserta la ciudad <x> el camino es el minimo
+pair<int, double> graph::particular_min(vector<int>& path, int x){
+  double aux=0, min=LONG_MAX; 
+  int index;
+
+  for(int i=0; i<=path.size(); i++){
+    path.insert(path.begin()+i, x);
+    
+    aux=total_weight(path);
+    if( aux<min ){
+      index=i;
+      min=aux;
+    }
+    
+    path.erase(path.begin()+i);
+  }  
+
+  return make_pair(index, min);
+}
+
+//Devuelve un par <i,j> donde 'i' es el indice de la ciudad a insertar
+//y 'j' es la posicion de 'r' tal que al insertar 'i' en 'j' el incremento
+//del camino es minimo
+pair<int, int> graph::total_min(vector<int> &r){
+
+  set<pair<double,pair<int, int> > >posibilities;
+  pair<int, double> aux;
+  
+  for(int i=0; i<cities.size(); i++){
+    if( !visited[i] ){
+      aux=particular_min(r, i);
+      posibilities.insert( pair<double,pair<int, int> >( aux.second, make_pair(i, aux.first) ) );
+    }
+  }
+
+  return make_pair( (*posibilities.begin()).second.first, (*posibilities.begin()).second.second );
+
+}
+
+//Calcula el camino minimo de un grafo utilizando un triangulo
+//formado por las ciudades mas al oeste, este y sur
+vector<int> graph::min_path2(int i, double &l){
+  clear();
   vector<int> r;
+
+  r.push_back( west_city() );
+  r.push_back( east_city() );
+  r.push_back( north_city() );
+
+  visited[r[0]]=true; visited[r[1]]=true; visited[r[2]]=true;
+
+  pair<int, int> new_node;
+  while( r.size() < cities.size() ){
+    new_node = total_min(r);
+    visited[new_node.first]=true;
+    r.insert(r.begin()+new_node.second, new_node.first);    
+  }
+
+  l=total_weight(r);
+  return r;      
+
+}
+
+vector<int> graph::min_path3(int i, double &l){
+  clear();  
+  vector<int> r;
+
+  set<pair<double, int> > posibilities;
+  for(int j=0; j<cities.size(); j++)
+    if(i!=j) posibilities.insert(make_pair( get_weight(i,j) , j) );
+
+  r.push_back(i);
+  r.push_back( (*posibilities.begin()).second );
+  r.push_back( (*(++posibilities.begin())).second );
+
+  visited[r[0]]=true; visited[r[1]]=true; visited[r[2]]=true;
+
+  pair<int, int> new_node;
+  while( r.size() < cities.size() ){
+    new_node = total_min(r);
+    visited[new_node.first]=true;
+    r.insert(r.begin()+new_node.second, new_node.first);    
+  }
+
+  l=total_weight(r);
+  return r;
 }
 
 #endif
