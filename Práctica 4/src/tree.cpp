@@ -95,11 +95,18 @@ class tree
 
     void show()
     {
+      int k=0;
       for(int i=0; i<t.size(); i++)
       {
+        k=0;
         cout << "Level " << i << ":\n";
         for( list<node>::iterator it=t[i].begin(); it!=t[i].end(); it++ )
+        {
+          if( k==0 ){ cout << "/***/" << (*it).father << "/***/ \n"; }
           cout << (*it).label << " ";
+          k = ( k==n-i-1 ) ? 0:k+1;
+        }
+        
         cout << "\n";
       }
     }
