@@ -1,16 +1,65 @@
+
+// g++ -std=c++11 ./src/backtracking.cpp -o ./bin/backtracking
+
 #include <iostream>
 #include "ArbolBinario.cpp"
+#include <vector>
 
 using namespace std;
 
+#define SHOW 1
 
-int main(int argc, const char * argv[]) {
-  ArbolBinario<int> tree;
+void make_conveniencie_matrix(vector<vector<int> > & v, int n)
+{
+  v.resize(n);
+  for(int i=0; i<n; i++) v[i].resize(n);
 
-  tree.asigna_raiz(1);
+  int k=0;
+  for(int i=0; i<v.size(); i++)
+  {
+    for(int j=0; j<v.size(); j++) if( i!=j ) v[i][j]=i+j+k;
+    k+=1;
+  }
 
-  tree.insertar_derecha()
-  tree.insertar_izquierda(3);
+}
+
+void show_convenience(vector<vector<int> > & v)
+{
+  for(int i=0; i<v.size(); i++)
+  {
+    for(int j=0; j<v.size(); j++)
+      cout << v[i][j] << "\t";
+    cout << endl;
+  }
+}
+
+
+int main(int argc, const char **argv) 
+{
+
+  if( argc != 2 )
+  {
+    cerr << "Format: " << argv[0] << " <n>" << endl;
+    exit(1);
+  }
+
+  int n=atoi(argv[1]);
+
+  vector<vector<int> > convenience;
+  make_conveniencie_matrix(convenience, n);
+
+  #if SHOW
+    show_convenience(convenience);
+  #endif
+
+  // ArbolBinario<int> tree;
+  // int e=2;
+  // tree.asigna_raiz(1);
+  // ArbolBinario<int> a(e);
+  // tree.insertar_derecha(tree.raiz(), a);
+  // tree.insertar_izquierda(tree.raiz(), a);
+
+  // tree.Esquema(tree.raiz(), "");
 
   return 0;
 }
