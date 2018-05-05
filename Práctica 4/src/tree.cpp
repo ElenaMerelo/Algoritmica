@@ -42,6 +42,12 @@ class tree
       return it;
     }
 
+    bool is_in(vector<int> & v, int x)
+    {
+      for(int i=0; i<v.size(); i++) if(v[i]==x) return true;
+      return false;
+    }
+
     vector<int> generate_children(int level, int father, int label)
     {
       vector<int> taken, children;
@@ -64,6 +70,8 @@ class tree
         taken.push_back(current_label);
       }
 
+      for(int i=0; i<n; i++) if( !is_in(taken, i) ) children.push_back(i);
+
       return children;
     }
 
@@ -76,9 +84,11 @@ class tree
       else
       {
         list<node>::iterator it;
+        vector<int> new_children;
         for(it=t[level-1].begin(); it!=t[level-1].end(); it++)
         {
-          vector<int> new_children=generate_children(level-1, (*it).father, (*it).label);
+          new_children=generate_children(level-1, (*it).father, (*it).label);
+          for(int i=0; i<new_children.size(); i++) t[level].push_back( node( (*it).father, new_children[i]) );
         }
       }
     }
