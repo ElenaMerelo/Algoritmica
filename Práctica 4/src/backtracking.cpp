@@ -52,5 +52,8 @@ int main(int argc, const char **argv)
     show_convenience(convenience);
   #endif
 
-  return 0;
+  tree t(n);
+  t.generate_level(1);
+  t.show();
+
 }

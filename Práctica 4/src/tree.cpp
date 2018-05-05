@@ -32,6 +32,7 @@ class tree
     { 
       n=n_; 
       t.resize(n);
+      generate_level(0);
     }
     
     list<node>::iterator search_node(int level, int father, int label)
@@ -45,11 +46,22 @@ class tree
     {
       vector<int> taken, children;
 
-      int current_level=level;
+      taken.push_back(label); //add current child
 
-      while( current_level > 0 )
+      int current_level=level-1; //because we have already added the node associated to level 'level'
+      int current_father=father;
+      int current_label=label;      
+
+      list<node>::iterator it;
+
+
+      while( current_level >= 0 )
       {
-        
+        it=search_node(current_level, current_father, current_label);
+        current_level--;
+        current_father=(*it).father;
+        current_label=(*it).label;
+        taken.push_back(current_label);
       }
 
       return children;
@@ -68,6 +80,17 @@ class tree
         {
           vector<int> new_children=generate_children(level-1, (*it).father, (*it).label);
         }
+      }
+    }
+
+    void show()
+    {
+      for(int i=0; i<t.size(); i++)
+      {
+        cout << "Level " << i << ":\n";
+        for( list<node>::iterator it=t[i].begin(); it!=t[i].end(); it++ )
+          cout << (*it).label << " ";
+        cout << "\n";
       }
     }
 };
