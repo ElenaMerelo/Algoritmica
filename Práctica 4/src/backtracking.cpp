@@ -7,33 +7,6 @@
 
 using namespace std;
 
-#define SHOW 0
-
-void make_conveniencie_matrix(vector<vector<int> > & v, int n)
-{
-  v.resize(n);
-  for(int i=0; i<n; i++) v[i].resize(n);
-
-  int k=0;
-  for(int i=0; i<v.size(); i++)
-  {
-    for(int j=0; j<v.size(); j++) if( i!=j ) v[i][j]=i+j+k;
-    k+=1;
-  }
-
-}
-
-void show_convenience(vector<vector<int> > & v)
-{
-  for(int i=0; i<v.size(); i++)
-  {
-    for(int j=0; j<v.size(); j++)
-      cout << v[i][j] << "\t";
-    cout << endl;
-  }
-}
-
-
 int main(int argc, const char **argv) 
 {
 
@@ -45,14 +18,11 @@ int main(int argc, const char **argv)
 
   int n=atoi(argv[1]);
 
-  vector<vector<int> > convenience;
-  make_conveniencie_matrix(convenience, n);
-
-  #if SHOW
-    show_convenience(convenience);
-  #endif
-
   tree t(n);
-    
-
+  t.show_convenience();
+  cout << t.cost_of_the_trivial_solution() << endl;
+  vector<int> a;
+  a.push_back(3); a.push_back(5);a.push_back(1); a.push_back(4); a.push_back(0); a.push_back(2);
+  cout << t.costs(a) << endl;
+  
 }

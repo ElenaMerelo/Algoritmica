@@ -5,6 +5,29 @@
 
 using namespace std;
 
+struct conv
+{
+  int person;
+  int convenience;
+};
+
+void make_conveniencie_matrix(vector<vector<conv> > & v, int n)
+{
+  v.resize(n);
+  for(int i=0; i<n; i++) v[i].resize(n-1);
+
+  int k=0;
+  for(int i=0; i<v.size(); i++)
+  {
+    for(int j=0; j<v.size()-1; j++)
+      {
+        v[i][j].person=( j>=i ) ? j+1:j;
+        v[i][j].convenience=i+j+k; //""""pseudo-random"""" 
+      }
+    k+=1;
+  }
+}
+
 class tree
 {
   private:
@@ -24,6 +47,7 @@ class tree
     };
 
     vector<list<node> > t;
+    vector<vector<conv> > convenience;
     int n; //size
 
   public:
@@ -33,6 +57,7 @@ class tree
       n=n_; 
       t.resize(n);
       generate_level(0);
+      make_conveniencie_matrix(convenience, n);
     }
     
     list<node>::iterator search_node(int level, list<node>::iterator father, int label)
@@ -136,5 +161,39 @@ class tree
         }
         cout << endl;
       }
+    }
+
+    //Show convenience's values
+    void show_convenience()
+    {
+      for(int i=0; i<n; i++){
+        for(int j=0; j<n-1; j++)
+          cout << convenience[i][j].convenience << "\t";
+        cout << endl;
+      }
+    }
+
+    int getConv(int i, int j)
+    {
+      int k=0;
+      while( convenience[i][k].person!=j ) { k++; }
+      return convenience[i][k].convenience;
+    }
+
+    //Calculate the cost of a given solution 'v'.
+    int costs(vector<int> & v)
+    {
+      int cost=0;
+      for(int i=1; i<n-1; i++) cost += getConv(i,i-1) + getConv(i,i+1);
+      cost += getConv(0,n-1) + getConv(0,1);
+      cost += getConv(n-1, n-2) + getConv(n-1,0);      
+    }
+
+    //considering the [0,1,...,n-1] as trivial solution
+    int cost_of_the_trivial_solution()
+    {
+      vector<int> trivial_solution;
+      for(int i=0; i<n; i++) trivial_solution.push_back(i);
+      return costs(trivial_solution);
     }
 };
