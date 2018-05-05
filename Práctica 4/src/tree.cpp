@@ -51,12 +51,14 @@ class tree
     vector<int> generate_children(int level, list<node>::iterator father)
     {
       vector<int> taken, children;
-
+      int level_=level;
       list<node>::iterator current_father=father;
 
-      if(level==0)
+      while(level_!=0)
       {
         taken.push_back((*father).label);
+        current_father=(*current_father).father;
+        level_--;
       }
 
       return supplementary(taken);
@@ -80,19 +82,17 @@ class tree
           aux.clear(); aux.push_back(i);
           aux=supplementary(aux);
           for(int j=0; j<aux.size(); j++) t[1].push_back( node(it, aux[j]) );
-
           it++;
-
         }
-
       }
       else
       {
-        list<node>::iterator it;
         vector<int> new_children;
+        list<node>::iterator it;
+
         for(it=t[level-1].begin(); it!=t[level-1].end(); it++)
         {
-          new_children=generate_children(level-1, (*it).father);
+          new_children=generate_children(level-1, it);
           for(int i=0; i<new_children.size(); i++) t[level].push_back( node( it, new_children[i]) );
         }
       }
