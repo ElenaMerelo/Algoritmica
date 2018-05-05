@@ -54,9 +54,9 @@ class tree
       int level_=level;
       list<node>::iterator current_father=father;
 
-      while(level_!=0)
+      while(level_>=0)
       {
-        taken.push_back((*father).label);
+        taken.push_back((*current_father).label);
         current_father=(*current_father).father;
         level_--;
       }
@@ -112,6 +112,25 @@ class tree
           k = ( k==n-i-1 ) ? 0:k+1;
         }
         cout << "\n";
+      }
+    }
+
+    void show_ways()
+    {
+      int level;
+      list<node>::iterator current_father;
+      for(list<node>::iterator it=t[n-1].begin(); it!=t[n-1].end(); it++)
+      {
+        cout << "Camino x: ";
+        level=n-1;
+        current_father=it;
+        while( level>=0 )
+        {
+          cout << (*current_father).label << " ";
+          current_father=(*current_father).father;
+          level--;
+        }
+        cout << endl;
       }
     }
 };
