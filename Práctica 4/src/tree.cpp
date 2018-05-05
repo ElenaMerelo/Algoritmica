@@ -147,20 +147,24 @@ class tree
     //Show all the calculated possibilities.
     void show_ways()
     {
-      int level;
+      int level, k=0;
       list<node>::iterator current_father;
+      vector<int> aux;
       for(list<node>::iterator it=t[n-1].begin(); it!=t[n-1].end(); it++)
       {
         cout << "Camino x: ";
         level=n-1;
         current_father=it;
+        aux.clear();
         while( level>=0 )
         {
           cout << (*current_father).label << " ";
+          aux.push_back((*current_father).label);
           current_father=(*current_father).father;
           level--;
         }
         cout << endl;
+        cout << "Coste del camino:(" << k++ << ") " << costs(aux) << endl;
       }
     }
 
@@ -169,7 +173,7 @@ class tree
     {
       for(int i=0; i<n; i++){
         for(int j=0; j<n-1; j++)
-          cout << convenience[i][j].convenience << "\t";
+          cout << convenience[i][j].person << ": " <<  convenience[i][j].convenience << "\t";
         cout << endl;
       }
     }
