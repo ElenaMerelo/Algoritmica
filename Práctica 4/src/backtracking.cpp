@@ -2,12 +2,12 @@
 // g++ -std=c++11 ./src/backtracking.cpp -o ./bin/backtracking
 
 #include <iostream>
-#include "ArbolBinario.cpp"
+#include "tree.cpp"
 #include <vector>
 
 using namespace std;
 
-#define SHOW 1
+#define SHOW 0
 
 void make_conveniencie_matrix(vector<vector<int> > & v, int n)
 {
@@ -51,15 +51,6 @@ int main(int argc, const char **argv)
   #if SHOW
     show_convenience(convenience);
   #endif
-
-  // ArbolBinario<int> tree;
-  // int e=2;
-  // tree.asigna_raiz(1);
-  // ArbolBinario<int> a(e);
-  // tree.insertar_derecha(tree.raiz(), a);
-  // tree.insertar_izquierda(tree.raiz(), a);
-
-  // tree.Esquema(tree.raiz(), "");
 
   return 0;
 }
