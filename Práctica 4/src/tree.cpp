@@ -64,6 +64,7 @@ class tree
       return supplementary(taken);
     }
 
+    //supplementary of v respect to [0...n-1]
     vector<int> supplementary(vector<int> & v)
     {
       vector<int> result;
@@ -75,6 +76,7 @@ class tree
     {
       if(level==0)
       {
+        //element 'father' in t[0] nodes is never used
         for(int i=0; i<n; i++) t[0].push_back( node( t[0].begin() , i) );
         vector<int> aux;
         list<node>::iterator it=t[0].begin();
@@ -98,6 +100,7 @@ class tree
       }
     }
 
+    //Show the tree by 'parent-levels'.
     void show()
     {
       int k=0;
@@ -115,6 +118,7 @@ class tree
       }
     }
 
+    //Show all the calculated possibilities.
     void show_ways()
     {
       int level;
