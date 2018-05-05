@@ -12,13 +12,13 @@ class tree
     struct node
     {
 
-      node(int f, int l)
+      node(list<node>::iterator f, int l)
       {
         father=f;
         label=l;
       }
 
-      int father;
+      list<node>::iterator father;
       int label;
 
     };
@@ -35,10 +35,10 @@ class tree
       generate_level(0);
     }
     
-    list<node>::iterator search_node(int level, int father, int label)
+    list<node>::iterator search_node(int level, list<node>::iterator father, int label)
     {
       list<node>::iterator it=t[level].begin();
-      do{ it++; } while( (*it).father!=father && (*it).label!=label );
+      while( (*it).father!=father && (*it).label!=label ){ it++; }
       return it;
     }
 
@@ -48,38 +48,43 @@ class tree
       return false;
     }
 
-    vector<int> generate_children(int level, int father, int label)
+    vector<int> generate_children(int level, list<node>::iterator father)
     {
       vector<int> taken, children;
 
-      taken.push_back(label); //add current child
+      list<node>::iterator current_father=father;
 
-      int current_level=level-1; //because we have already added the node associated to level 'level'
-      int current_father=father;
-      int current_label=label;      
-
-      list<node>::iterator it;
-
-
-      while( current_level >= 0 )
+      if(level==0)
       {
-        it=search_node(current_level, current_father, current_label);
-        current_level--;
-        current_father=(*it).father;
-        current_label=(*it).label;
-        taken.push_back(current_label);
+        taken.push_back((*father).label);
       }
 
-      for(int i=0; i<n; i++) if( !is_in(taken, i) ) children.push_back(i);
+      return supplementary(taken);
+    }
 
-      return children;
+    vector<int> supplementary(vector<int> & v)
+    {
+      vector<int> result;
+      for(int i=0; i<n; i++) if( !is_in(v, i) ) result.push_back(i);
+      return result;
     }
 
     void generate_level(int level)
     {
       if(level==0)
       {
-        for(int i=0; i<n; i++) t[0].push_back( node(-1, i) );
+        for(int i=0; i<n; i++) t[0].push_back( node( t[0].begin() , i) );
+        vector<int> aux;
+        list<node>::iterator it=t[0].begin();
+        for(int i=0; i<n; i++){
+          aux.clear(); aux.push_back(i);
+          aux=supplementary(aux);
+          for(int j=0; j<aux.size(); j++) t[1].push_back( node(it, aux[j]) );
+
+          it++;
+
+        }
+
       }
       else
       {
@@ -87,8 +92,8 @@ class tree
         vector<int> new_children;
         for(it=t[level-1].begin(); it!=t[level-1].end(); it++)
         {
-          new_children=generate_children(level-1, (*it).father, (*it).label);
-          for(int i=0; i<new_children.size(); i++) t[level].push_back( node( (*it).father, new_children[i]) );
+          new_children=generate_children(level-1, (*it).father);
+          for(int i=0; i<new_children.size(); i++) t[level].push_back( node( it, new_children[i]) );
         }
       }
     }
@@ -99,14 +104,13 @@ class tree
       for(int i=0; i<t.size(); i++)
       {
         k=0;
-        cout << "Level " << i << ":\n";
+        cout << "\nLevel " << i << ":\n";
         for( list<node>::iterator it=t[i].begin(); it!=t[i].end(); it++ )
         {
-          if( k==0 ){ cout << "/***/" << (*it).father << "/***/ \n"; }
+          if( k==0 ){ cout << "\n/***/" << (*(*it).father).label << "/***/ "; }
           cout << (*it).label << " ";
           k = ( k==n-i-1 ) ? 0:k+1;
         }
-        
         cout << "\n";
       }
     }

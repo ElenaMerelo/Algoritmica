@@ -53,8 +53,8 @@ int main(int argc, const char **argv)
   #endif
 
   tree t(n);
-  t.generate_level(1);
-  t.generate_level(2);  
+  // t.generate_level(1);
+  // t.generate_level(2);  
   t.show();
 
 }
