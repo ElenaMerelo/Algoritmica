@@ -2,6 +2,7 @@
 #include<iostream>
 #include<list>
 #include<vector>
+#include <stdlib.h>
 
 using namespace std;
 
@@ -22,7 +23,7 @@ void make_conveniencie_matrix(vector<vector<conv> > & v, int n)
     for(int j=0; j<v.size()-1; j++)
       {
         v[i][j].person=( j>=i ) ? j+1:j;
-        v[i][j].convenience=i+j+k; //""""pseudo-random"""" 
+        v[i][j].convenience=rand() % 100; //""""pseudo-random"""" 
       }
     k+=1;
   }
