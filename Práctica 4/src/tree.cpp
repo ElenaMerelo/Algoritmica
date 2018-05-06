@@ -18,7 +18,7 @@ struct node
 
   int label;
   list<node>::iterator father;
-  list< list<node>::iterator > children;
+  vector< list<node>::iterator > children;
 };
 
 class tree
@@ -110,6 +110,25 @@ class tree
       for(int i=1; i<n; i++) generate_level(i);
     }
 
+    void delete_nodes(list<node>::iterator it, int level)
+    {
+      if( !(*it).children.empty() )
+      {
+        for( int i=0; i<(*it).children.size(); i++ ) delete_nodes((*it).children[i], level+1);
+        list<list<node> >::iterator it_=t.begin(); advance(it_, level);
+        (*it_).erase(it);        
+      }
+      else
+      {
+        vector< list<node>::iterator >::iterator i=(*(*it).father).children.begin();
+        while( (*i)!=it ) i++; (*(*it).father).children.erase(i);
+
+        list<list<node> >::iterator it_=t.begin(); advance(it_, level);
+        (*it_).erase(it);
+      }
+    }
+
+
     //Show all the calculated possibilities.
     void show_ways()
     {
@@ -141,4 +160,11 @@ class tree
       for(int i=0; i<n; i++) trivial_solution.push_back(i);
       return convenience.costs(trivial_solution);
     }
+
+    int backtracking()
+    {
+      int current_cost=cost_of_the_trivial_solution();
+      return current_cost;
+    }
+
 };
