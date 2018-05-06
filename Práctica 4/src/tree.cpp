@@ -189,9 +189,10 @@ class tree
     int costs(vector<int> & v)
     {
       int cost=0;
-      for(int i=1; i<n-1; i++) cost += getConv(i,i-1) + getConv(i,i+1);
-      cost += getConv(0,n-1) + getConv(0,1);
-      cost += getConv(n-1, n-2) + getConv(n-1,0);      
+      for(int i=1; i<n-1; i++) { cost += getConv(v[i],v[i-1]) + getConv(v[i],v[i+1]); }
+      cost += getConv(v[0],v[n-1]) + getConv(v[0],v[1]);
+      cost += getConv(v[n-1], v[n-2]) + getConv(v[n-1],v[0]);    
+      return cost;
     }
 
     //considering the [0,1,...,n-1] as trivial solution

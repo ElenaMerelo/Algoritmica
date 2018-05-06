@@ -2,6 +2,7 @@
 // g++ -std=c++11 ./src/backtracking.cpp -o ./bin/backtracking
 
 #include <iostream>
+#include <stdlib.h>
 #include "tree.cpp"
 #include <vector>
 
@@ -12,7 +13,7 @@ int main(int argc, const char **argv)
 
   if( argc != 2 )
   {
-    cerr << "Format: " << argv[0] << " <n>" << endl;
+    cout << "Format: " << argv[0] << " <n>" << "\n";
     exit(1);
   }
 
@@ -23,6 +24,7 @@ int main(int argc, const char **argv)
   t.generate_level(3);
   t.generate_level(4);
   t.generate_level(5);
-  t.show_ways();
   
+  // t.show_convenience();
+  // cout << endl << t.getConv(0,3) << endl;
 }
