@@ -26,22 +26,23 @@ class tree
   private:
 
     int n; //size
+    ConvenienceMatrix convenience;
+    list<list<node> > t;
 
   public:
-    ConvenienceMatrix convenience;
-    vector<list<node> > t;
     
     tree(int n_)
     { 
-      n=n_; 
-      t.resize(n);
+      t.resize(n_);
+      n=n_;
       generate_level(0);
       convenience = ConvenienceMatrix(n);
     }
     
     list<node>::iterator search_node(int level, list<node>::iterator father, int label)
     {
-      list<node>::iterator it=t[level].begin();
+      list<list<node> >::iterator it_=t.begin(); advance(it_, level);
+      list<node>::iterator it=(*it_).begin(); 
       while( (*it).father!=father && (*it).label!=label ){ it++; }
       return it;
     }
@@ -84,19 +85,21 @@ class tree
     {
       if(level==0)
       {
-        for(int i=0; i<n; i++) t[0].push_back( node( t[0].begin() , i) );
+        for(int i=0; i<n; i++) { (*t.begin()).push_back( node( (*t.begin()).begin() , i) ); } 
       }
       else
       {
         vector<int> new_children;
         list<node>::iterator it;
+        list<list<node> >::iterator it_=t.begin(), it__=t.begin();
+        advance(it_, level-1); advance(it__, level);
 
-        for(it=t[level-1].begin(); it!=t[level-1].end(); it++)
+        for( it=(*it_).begin() ; it!=(*it_).end(); it++)
         {
           new_children=generate_children(level-1, it);
           for(int i=0; i<new_children.size(); i++){
-            t[level].push_back( node( it, new_children[i]) );
-            (*it).children.push_back( search_node(level, it, new_children[i]) );
+            (*it__).push_back( node( it, new_children[i]) );
+            (*it).children.push_back( search_node(level, it, new_children[i]) ); cout << "a";
           }
         }
       }
@@ -107,31 +110,13 @@ class tree
       for(int i=1; i<n; i++) generate_level(i);
     }
 
-    //Show the tree by 'parent-levels'.
-    void show()
-    {
-      int k=0;
-      for(int i=0; i<t.size(); i++)
-      {
-        k=0;
-        cout << "\nLevel " << i << ":\n";
-        for( list<node>::iterator it=t[i].begin(); it!=t[i].end(); it++ )
-        {
-          if( k==0 ){ cout << "\n/***/" << (*(*it).father).label << "/***/ "; }
-          cout << (*it).label << " ";
-          k = ( k==n-i-1 ) ? 0:k+1;
-        }
-        cout << "\n";
-      }
-    }
-
     //Show all the calculated possibilities.
     void show_ways()
     {
       int level, k=0;
       list<node>::iterator current_father;
       vector<int> aux;
-      for(list<node>::iterator it=t[n-1].begin(); it!=t[n-1].end(); it++)
+      for(list<node>::iterator it=t.back().begin(); it!=t.back().end(); it++)
       {
         cout << "Camino x: ";
         level=n-1;
