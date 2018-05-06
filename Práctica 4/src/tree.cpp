@@ -12,6 +12,21 @@ struct conv
   int convenience;
 };
 
+struct node
+{
+
+  node(list<node>::iterator f, int l)
+  {
+    father=f;
+    label=l;
+  }
+
+  int label;
+  list<node>::iterator father;
+  list< list<node>::iterator > children;
+};
+
+
 void make_conveniencie_matrix(vector<vector<conv> > & v, int n)
 {
   v.resize(n);
@@ -32,26 +47,12 @@ void make_conveniencie_matrix(vector<vector<conv> > & v, int n)
 class tree
 {
   private:
-    
-    struct node
-    {
 
-      node(list<node>::iterator f, int l)
-      {
-        father=f;
-        label=l;
-      }
-
-      int label;
-      list<node>::iterator father;
-      list< list<node>::iterator > children;
-    };
-
-    vector<list<node> > t;
     vector<vector<conv> > convenience;
     int n; //size
 
   public:
+    vector<list<node> > t;
     
     tree(int n_)
     { 

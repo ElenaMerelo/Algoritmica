@@ -21,8 +21,14 @@ int main(int argc, const char **argv)
 
   tree t(n);
   t.generate_all_levels();
-  t.show_ways();
-  // t.show();
-  // t.show_convenience();
-  // cout << endl << t.getConv(0,3) << endl;
+
+  int level=0;
+  list<node>::iterator it=t.t[0].begin();
+  while(level!=n)
+  {
+    cout << (*it).label << " ";
+    it=(*(*it).children.begin());
+    level++;
+  }
+
 }
