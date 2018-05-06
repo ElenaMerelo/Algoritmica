@@ -42,9 +42,9 @@ class tree
         label=l;
       }
 
-      list<node>::iterator father;
       int label;
-
+      list<node>::iterator father;
+      list< list<node>::iterator > children;
     };
 
     vector<list<node> > t;
@@ -79,14 +79,18 @@ class tree
       vector<int> taken, children;
       int level_=level;
       list<node>::iterator current_father=father;
-
-      while(level_>=0)
+      if ( level==0 )
+        taken.push_back( (*father).label );
+      else
       {
-        taken.push_back((*current_father).label);
-        current_father=(*current_father).father;
-        level_--;
+        while(level_>=0)
+        {
+          taken.push_back((*current_father).label);
+          current_father=(*current_father).father;
+          level_--;
+        }
       }
-
+      
       return supplementary(taken);
     }
 
@@ -102,16 +106,7 @@ class tree
     {
       if(level==0)
       {
-        //element 'father' in t[0] nodes is never used
         for(int i=0; i<n; i++) t[0].push_back( node( t[0].begin() , i) );
-        vector<int> aux;
-        list<node>::iterator it=t[0].begin();
-        for(int i=0; i<n; i++){
-          aux.clear(); aux.push_back(i);
-          aux=supplementary(aux);
-          for(int j=0; j<aux.size(); j++) t[1].push_back( node(it, aux[j]) );
-          it++;
-        }
       }
       else
       {
@@ -121,9 +116,17 @@ class tree
         for(it=t[level-1].begin(); it!=t[level-1].end(); it++)
         {
           new_children=generate_children(level-1, it);
-          for(int i=0; i<new_children.size(); i++) t[level].push_back( node( it, new_children[i]) );
+          for(int i=0; i<new_children.size(); i++){
+            t[level].push_back( node( it, new_children[i]) );
+            (*it).children.push_back( search_node(level, it, new_children[i]) );
+          }
         }
       }
+    }
+
+    void generate_all_levels()
+    {
+      for(int i=1; i<n; i++) generate_level(i);
     }
 
     //Show the tree by 'parent-levels'.

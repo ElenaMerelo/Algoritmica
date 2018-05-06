@@ -20,11 +20,9 @@ int main(int argc, const char **argv)
   int n=atoi(argv[1]);
 
   tree t(n);
-  t.generate_level(2);
-  t.generate_level(3);
-  t.generate_level(4);
-  t.generate_level(5);
-  
+  t.generate_all_levels();
+  t.show_ways();
+  // t.show();
   // t.show_convenience();
   // cout << endl << t.getConv(0,3) << endl;
 }
