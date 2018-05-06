@@ -22,13 +22,16 @@ int main(int argc, const char **argv)
   tree t(n);
   t.generate_all_levels();
 
-  int level=0;
-  list<node>::iterator it=t.t[0].begin();
-  while(level!=n)
-  {
-    cout << (*it).label << " ";
-    it=(*(*it).children.begin());
-    level++;
-  }
+  // t.convenience.show();
+  cout << t.cost_of_the_trivial_solution();
+
+  // int level=0;
+  // list<node>::iterator it=t.t[0].begin();
+  // while(level!=n)
+  // {
+  //   cout << (*it).label << " ";
+  //   it=(*(*it).children.begin());
+  //   level++;
+  // }
 
 }

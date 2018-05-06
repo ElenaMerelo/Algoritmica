@@ -6,12 +6,6 @@
 
 using namespace std;
 
-struct conv
-{
-  int person;
-  int convenience;
-};
-
 struct node
 {
 
@@ -26,32 +20,76 @@ struct node
   list< list<node>::iterator > children;
 };
 
-
-void make_conveniencie_matrix(vector<vector<conv> > & v, int n)
+struct conv
 {
-  v.resize(n);
-  for(int i=0; i<n; i++) v[i].resize(n-1);
+  int person;
+  int convenience;
+};
 
-  int k=0;
-  for(int i=0; i<v.size(); i++)
-  {
-    for(int j=0; j<v.size()-1; j++)
+class ConvenienceMatrix
+{
+  private:
+    vector<vector<conv> > c;
+  public:
+    ConvenienceMatrix(){};
+    ConvenienceMatrix(int n)
+    {
+      c.resize(n);
+      for(int i=0; i<n; i++) c[i].resize(n-1);
+
+      int k=0;
+      for(int i=0; i<c.size(); i++)
       {
-        v[i][j].person=( j>=i ) ? j+1:j;
-        v[i][j].convenience=rand() % 100; //""""pseudo-random"""" 
+        for(int j=0; j<c.size()-1; j++)
+          {
+            c[i][j].person=( j>=i ) ? j+1:j;
+            c[i][j].convenience=rand() % 100; //""""pseudo-random"""" 
+          }
+        k+=1;
       }
-    k+=1;
-  }
-}
+    }
+
+    struct conv get(int i, int j){ return c[i][j]; }
+
+    //Show convenience's values
+    void show()
+    {
+      for(int i=0; i<c.size(); i++){
+        for(int j=0; j<c.size()-1; j++)
+          cout << get(i,j).person << ": " << get(i,j).convenience << "\t";
+        cout << endl;
+      }
+    }
+
+    int getConv(int i, int j)
+    {
+      int k=0;
+      while( get(i,k).person!=j ) { k++; }
+      return get(i,k).convenience;
+    }
+
+    //Calculate the cost of a given solution 'v'.
+    int costs(vector<int> & v)
+    {
+      int cost=0, n=v.size();
+      for(int i=1; i<n-1; i++) { cost += getConv(v[i],v[i-1]) + getConv(v[i],v[i+1]); }
+      cost += getConv(v[0],v[n-1]) + getConv(v[0],v[1]);
+      cost += getConv(v[n-1], v[n-2]) + getConv(v[n-1],v[0]);    
+      return cost;
+    }
+
+};
+
+
 
 class tree
 {
   private:
 
-    vector<vector<conv> > convenience;
     int n; //size
 
   public:
+    ConvenienceMatrix convenience;
     vector<list<node> > t;
     
     tree(int n_)
@@ -59,7 +97,7 @@ class tree
       n=n_; 
       t.resize(n);
       generate_level(0);
-      make_conveniencie_matrix(convenience, n);
+      convenience = ConvenienceMatrix(n);
     }
     
     list<node>::iterator search_node(int level, list<node>::iterator father, int label)
@@ -168,35 +206,8 @@ class tree
           level--;
         }
         cout << endl;
-        cout << "Coste del camino:(" << k++ << ") " << costs(aux) << endl;
+        cout << "Coste del camino:(" << k++ << ") " << convenience.costs(aux) << endl;
       }
-    }
-
-    //Show convenience's values
-    void show_convenience()
-    {
-      for(int i=0; i<n; i++){
-        for(int j=0; j<n-1; j++)
-          cout << convenience[i][j].person << ": " <<  convenience[i][j].convenience << "\t";
-        cout << endl;
-      }
-    }
-
-    int getConv(int i, int j)
-    {
-      int k=0;
-      while( convenience[i][k].person!=j ) { k++; }
-      return convenience[i][k].convenience;
-    }
-
-    //Calculate the cost of a given solution 'v'.
-    int costs(vector<int> & v)
-    {
-      int cost=0;
-      for(int i=1; i<n-1; i++) { cost += getConv(v[i],v[i-1]) + getConv(v[i],v[i+1]); }
-      cost += getConv(v[0],v[n-1]) + getConv(v[0],v[1]);
-      cost += getConv(v[n-1], v[n-2]) + getConv(v[n-1],v[0]);    
-      return cost;
     }
 
     //considering the [0,1,...,n-1] as trivial solution
@@ -204,6 +215,6 @@ class tree
     {
       vector<int> trivial_solution;
       for(int i=0; i<n; i++) trivial_solution.push_back(i);
-      return costs(trivial_solution);
+      return convenience.costs(trivial_solution);
     }
 };
