@@ -2,6 +2,9 @@
 #include<vector>
 #include <stdlib.h>
 
+#ifndef __CONVENIENCE__
+#define __CONVENIENCE__
+
 using namespace std;
 
 struct conv
@@ -33,6 +36,8 @@ class ConvenienceMatrix
       }
     }
 
+    int size(){ return c.size(); }
+
     struct conv get(int i, int j){ return c[i][j]; }
 
     //Show convenience's values
@@ -63,3 +68,5 @@ class ConvenienceMatrix
     }
 
 };
+
+#endif
