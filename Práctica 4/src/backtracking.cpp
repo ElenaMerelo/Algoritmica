@@ -21,6 +21,19 @@ int main(int argc, const char **argv)
 
   tree t(n);
   t.generate_all_levels();
-  t.show_ways();
+
+  cout << "ANTES DE BORRAR" << endl;
+  // t.show_ways();
+
+
+  list<list<node> >::iterator it=t.t.begin(); it++;
+  list<node>::iterator it_=(*it).begin();
+  cout << (*it_).label <<  " " << (*(*it_).father).label << endl;
+  t.delete_nodes(it_, 1);
+
+
+
+  cout << "DESPUES DE BORRAR" << endl;
+  // t.show_ways();
 
 }
