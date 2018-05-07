@@ -3,6 +3,7 @@
         "ostream": "cpp",
         "iostream": "cpp",
         "vector": "cpp",
-        "initializer_list": "cpp"
+        "initializer_list": "cpp",
+        "utility": "cpp"
     }
 }
