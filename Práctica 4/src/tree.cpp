@@ -3,6 +3,7 @@
 #include<list>
 #include<vector>
 #include <stdlib.h>
+#include "auxiliar.cpp"
 #include "convenience.cpp"
 #include "node.cpp"
 
@@ -15,11 +16,6 @@ class tree
     struct node root;
     list<list<node> > nodes;
 
-    list<list<node> >::iterator get_it(int level)
-    {
-      list<list<node> >::iterator it; advance(it, level);
-      return it;
-    }
 
   public:
   
@@ -31,12 +27,17 @@ class tree
 
   struct node get_root(){ return root; }
 
-  void insert_node(struct node n)
+  list<list<node> >::iterator get_it(int level)
   {
-    if( n.level==-1 )
-      (*nodes.begin()).push_back( node(list<node>::iterator(), -1, n.label) );
-    else
-      insert_node(n.father, n.label);
+    list<list<node> >::iterator it; advance(it, level);
+    return it;
+  }
+
+  void insert_node(struct node n, int label)
+
+  {
+    list<list<node> >::iterator it_=nodes.begin();
+    (*it_).push_back( node(list<node>::iterator(), 0, label ) );    
   }
 
   void insert_node(list<node>::iterator it, int label)
@@ -78,5 +79,17 @@ class tree
   {
     list<node>::iterator it=search_node(n);
     delete_nodes(it);
+  }
+
+  void show_nodes_by_levels()
+  {
+    int i=0;
+    for( list<list<node> >::iterator it=nodes.begin(); it!=nodes.end(); it++ )
+    {
+      cout << "Level " << i++ << " :" << endl;
+      for( list<node>::iterator jt=(*it).begin(); jt!=(*it).end(); jt++ )
+        cout << (*jt).label << " ";
+      cout << endl;
+    }
   }
 };

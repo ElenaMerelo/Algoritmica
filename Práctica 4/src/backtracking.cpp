@@ -8,6 +8,18 @@
 
 using namespace std;
 
+void generate_level(tree & t, int level)
+{
+  vector<int> new_children;
+  list<node>::iterator it;
+  list<list<node> >::iterator it_=t.get_it(level);
+
+  for( it=(*it_).begin(); it!=(*it_).end(); it++ )
+  {
+    new_children=generate_children(level-1, it);
+  }
+}
+
 int main(int argc, const char **argv) 
 {
 
@@ -20,20 +32,12 @@ int main(int argc, const char **argv)
   int n=atoi(argv[1]);
 
   tree t(n);
-  t.generate_all_levels();
 
-  cout << "ANTES DE BORRAR" << endl;
-  // t.show_ways();
+  t.set_root( node( list<node>::iterator(), -1, -1 ) );
 
+  for(int i=0; i<n; i++)
+    t.insert_node( t.get_root(), i );
 
-  list<list<node> >::iterator it=t.t.begin(); it++;
-  list<node>::iterator it_=(*it).begin();
-  cout << (*it_).label <<  " " << (*(*it_).father).label << endl;
-  t.delete_nodes(it_, 1);
-
-
-
-  cout << "DESPUES DE BORRAR" << endl;
-  // t.show_ways();
+  t.show_nodes_by_levels();
 
 }
