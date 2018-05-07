@@ -2,6 +2,10 @@
 #include <list>
 #include <vector>
 
+#ifndef __NODE__
+#define __NODE__
+
+
 using namespace std;
 
 struct node
@@ -23,3 +27,5 @@ struct node
     }
 
 };
+
+#endif

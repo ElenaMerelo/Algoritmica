@@ -4,8 +4,10 @@
 #include<vector>
 #include <stdlib.h>
 #include "auxiliar.cpp"
-#include "convenience.cpp"
 #include "node.cpp"
+
+#ifndef __TREE__
+#define __TREE__
 
 using namespace std;
 
@@ -25,11 +27,13 @@ class tree
 
   void set_root(struct node r){ root=r; }
 
+  int levels(){ return n; }
+
   struct node get_root(){ return root; }
 
   list<list<node> >::iterator get_it(int level)
   {
-    list<list<node> >::iterator it; advance(it, level);
+    list<list<node> >::iterator it=nodes.begin(); advance(it, level);
     return it;
   }
 
@@ -92,4 +96,7 @@ class tree
       cout << endl;
     }
   }
+
 };
+
+#endif
