@@ -36,6 +36,8 @@ class ConvenienceMatrix
       }
     }
 
+    int size(){ return c.size(); }
+
     struct conv get(int i, int j){ return c[i][j]; }
 
     //Show convenience's values

@@ -1,13 +1,50 @@
 
-// g++ -std=c++11 ./src/backtracking.cpp -o ./bin/backtracking
+// g++ -std=c++11 ./src/main.cpp -o ./bin/main
 
 #include <iostream>
 #include <stdlib.h>
-#include "tree.cpp"
 #include <vector>
-#include "backtracking.cpp"
+#include "convenience.cpp"
+#include "auxiliar.cpp"
 
 using namespace std;
+
+#define SHOW_EMPIRIC 0
+
+static int count = 0; //numero de soluciones calculadas
+
+void to_s(const vector<int>& v) {
+  cout << "combination no " << (++count) << ": [ ";
+  for (int i = 0; i < v.size(); ++i) { cout << v[i] << " "; }
+  cout << "] " << endl;
+}
+
+
+vector<int> solution; //mejor solucuion
+int cost; //coste de la solucion
+int aux_cost; //coste auxiliar para calcular el maximo
+
+void backtracking(ConvenienceMatrix & c, vector<int> v)
+{
+  vector<int> available=supplementary(v, c.size()); //definida en 'auxliar.cpp'
+  for(int i=0; i<available.size(); i++)
+  {
+    v.push_back(available[i]); //aniadimos el siguiente numero que no este ya en la solucion
+    if( v.size() == c.size() ) ++count;//to_s(v); //descomentar para ver todas las posibilidades
+    aux_cost=c.costs(v);
+    if(aux_cost > cost) //guardamos la solucion con el mayor coste
+    {
+      cost=aux_cost;
+      solution=v;
+    }
+    else
+      backtracking(c, v); //recursividad
+    v.pop_back(); //eliminamos el elemento aniadido antes para calcular
+                  //la siguiente posibilidad
+  }
+}
+
+
 
 int main(int argc, const char **argv) 
 {
@@ -18,23 +55,22 @@ int main(int argc, const char **argv)
     exit(1);
   }
 
+  clock_t tantes;    // Valor del reloj antes de la ejecución
+  clock_t tdespues; // Valor del reloj después de la ejecución
+
   int n=atoi(argv[1]);
 
-  tree t(n);
-  t.set_root( node( list<node>::iterator(), -1, -1 ) );
+  ConvenienceMatrix c(n);
+  tantes = clock();
+  backtracking(c, vector<int>());
+  tdespues = clock();
 
-  for(int i=0; i<n; i++)
-    t.insert_node( t.get_root(), i );
-
-  generate_level(t, 1);
-  generate_level(t, 2);
-  
-  t.show_nodes_by_levels();
-  
-  list<list<node> >::iterator it=t.get_it(0);
-  t.chop( (*(*it).begin()) );
-
-  t.show_nodes_by_levels();
-  // show_ways(t);
-
+  #if SHOW_EMPIRIC  
+    cout << "Mejor solucion: ";
+    to_s(solution);
+    cout << "Coste de mejor solución: " << cost << endl;
+    cout << "Soluciones totales calculadas " << count << endl;
+  #else
+    cout << n << " " << ((double)(tdespues-tantes))/CLOCKS_PER_SEC << endl;
+  #endif
 }
