@@ -1,0 +1,100 @@
+\documentclass[11pt]{article}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{listings}
+\usepackage[hmargin=2cm]{geometry}
+\usepackage{color} 
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92} 
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{blue},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+\begin{document}
+\begin{titlepage}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\center
+\textsc{\LARGE Universidad de Granada}\\[1.5cm] % Name of your university/college
+\textsc{\Large Algorítmica}\\[0.5cm] % Major heading such as course name
+\textsc{\large Memoria de Prácticas}\\[0.5cm] % Minor heading such as course title
+\HRule \\[0.4cm]
+{ \huge \bfseries Práctica III: Greedy}\\[0.4cm] % Title of your document
+\HRule \\[1.5cm]
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Autores:}\\
+Antonio Gámiz Delgado\textsc{} % Your name
+\end{flushleft}
+\end{minipage}
+~
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+\emph{} \\
+\textsc{} % Supervisor's Name
+\end{flushright}
+\end{minipage}\\[2cm]
+{\large \today}\\[2cm] % Date, change the \today to a set date if you want to be precise
+\includegraphics{logo.png}\\[1cm]
+\vfill % Fill the rest of the page with whitespace
+\end{titlepage}
+
+\section{Problema}
+
+Se va a celebrar una cene de gala a la que asistirán $n$ invitados. Todos se van a sentar alrededor de una única gran mesa rectangular, de forma que cada invitado tendrá sentados junto a él a otros dos comensales (uno a su izquierda y otro a su derecha). En función de las característiscas de cada invitado (por ejemplo po categoría, puesto, lugar de procedencia...) existen unas normas de protocolo que indican el nivel de conveniencia de que dos invitados se siente en lugares contiguos (supondremos que dicho nivel es un número entero entre 0 y 100). El nivel de conveniencia total de una asignación de invitados a su puesto en la mesa es la suma de todos los niveles de conveniencia de cada invitado con cada uno de los dos invitados sentados a su lado.
+
+Se desea sentar a los invitados de forma que el nivel de conveniencia global sea lo mayor posible. Diseñar e implementar un algoritmo vuelta atrás para resolver este problema. Realizar un estudio empírico de su eficiencia.
+
+\section{Representación de la conveniencia}
+
+Para implementar la conveniencia, he creado una clase independiente llamada $ConvenienceMatrix$ para obtener mayor generalidad a la hora de representarla (en caso de que queramos modificar como se obtiene la conveniencia solo tenemos que modificar esa clase y no el algoritmo entero).
+
+\section{Diseño del algoritmo backtracking}
+
+Para resolver el problema, primero empecé a desorrar la implementación de un árbol para luego rellenarlo, podarlo, etc, pero luego me di cuenta que con una función recursiva bastante simple obteníamos el mismo resultado saltándonos la complejidad que acarrea un árbol general.
+
+Por lo que, a continuación expongo el algoritmo en sí y algunas variables globales que he usado (no es buena práctica usar variables globales, pero debido a que simplifican el diseño y aportar claridad he visto conveniente usarlas en esta código).
+
+\begin{lstlisting}[language=C++, caption=Función obejtivo]
+void backtracking(ConvenienceMatrix & c, vector<int> v)
+{
+	vector<int> available=supplementary(v, c.size()); //definida en 'auxliar.cpp'
+	for(int i=0; i<available.size(); i++)
+	{
+	v.push_back(available[i]); //aniadimos el siguiente numero que no este ya en la solucion
+	if( v.size() == c.size() ) ++count;//to_s(v); //descomentar para ver todas las posibilidades
+	aux_cost=c.costs(v);
+	if(aux_cost > cost) //guardamos la solucion con el mayor coste
+	{
+		cost=aux_cost;
+		solution=v;
+	}
+	else
+		backtracking(c, v); //recursividad
+	v.pop_back(); //eliminamos el elemento aniadido antes para calcular
+				  //la siguiente posibilidad
+	}
+}
+\end{lstlisting}
+
+
+\end{document}

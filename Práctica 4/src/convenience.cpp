@@ -22,15 +22,15 @@ class ConvenienceMatrix
     ConvenienceMatrix(int n)
     {
       c.resize(n);
-      for(int i=0; i<n; i++) c[i].resize(n-1);
+      for(int i=0; i<n; i++) c[i].resize(n);
 
       int k=0;
       for(int i=0; i<c.size(); i++)
       {
-        for(int j=0; j<c.size()-1; j++)
+        for(int j=0; j<c.size(); j++)
           {
-            c[i][j].person=( j>=i ) ? j+1:j;
-            c[i][j].convenience=rand() % 100; //""""pseudo-random"""" 
+            c[i][j].person=j;
+            c[i][j].convenience=(i!=j) ? rand() % 100 : 0; //""""pseudo-random"""" 
           }
         k+=1;
       }
@@ -52,9 +52,7 @@ class ConvenienceMatrix
 
     int getConv(int i, int j)
     {
-      int k=0;
-      while( get(i,k).person!=j ) { k++; }
-      return get(i,k).convenience;
+        return c[i][j].convenience;
     }
 
     //Calculate the cost of a given solution 'v'.

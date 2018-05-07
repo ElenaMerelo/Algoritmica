@@ -9,7 +9,7 @@
 
 using namespace std;
 
-#define SHOW_EMPIRIC 0
+#define SHOW_EMPIRIC 1
 
 static int count = 0; //numero de soluciones calculadas
 
@@ -29,16 +29,16 @@ void backtracking(ConvenienceMatrix & c, vector<int> v)
   vector<int> available=supplementary(v, c.size()); //definida en 'auxliar.cpp'
   for(int i=0; i<available.size(); i++)
   {
-    v.push_back(available[i]); //aniadimos el siguiente numero que no este ya en la solucion
+    v.push_back(available[i] ); //aniadimos el siguiente numero que no este ya en la solucion
     if( v.size() == c.size() ) ++count;//to_s(v); //descomentar para ver todas las posibilidades
     aux_cost=c.costs(v);
-    if(aux_cost > cost) //guardamos la solucion con el mayor coste
+    if(aux_cost > cost  ) //guardamos la solucion con el mayor coste
     {
       cost=aux_cost;
       solution=v;
-    }
-    else
       backtracking(c, v); //recursividad
+    }
+    if(v.size()<9) backtracking(c, v);
     v.pop_back(); //eliminamos el elemento aniadido antes para calcular
                   //la siguiente posibilidad
   }
@@ -59,8 +59,11 @@ int main(int argc, const char **argv)
   clock_t tdespues; // Valor del reloj después de la ejecución
 
   int n=atoi(argv[1]);
-
   ConvenienceMatrix c(n);
+
+  // for(int i=0; i<n; i++){ solution.push_back(i); }
+  // cost=c.costs(solution);
+  
   tantes = clock();
   backtracking(c, vector<int>());
   tdespues = clock();
@@ -70,7 +73,7 @@ int main(int argc, const char **argv)
     to_s(solution);
     cout << "Coste de mejor solución: " << cost << endl;
     cout << "Soluciones totales calculadas " << count << endl;
-  #else
+  // #else
     cout << n << " " << ((double)(tdespues-tantes))/CLOCKS_PER_SEC << endl;
   #endif
 }
