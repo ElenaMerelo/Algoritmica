@@ -8,14 +8,18 @@ struct node
 {
 
     int label;
+    int level;
 
     list<node>::iterator father;
     vector< list<node>::iterator > children;
 
-    node(list<node>::iterator f, int l)
+    node(){level=-1;};
+
+    node(list<node>::iterator father_, int level_, int label_)
     {
-        father=f;
-        label=l;
+        father=father_;
+        level=level_;
+        label=label_;
     }
 
 };
