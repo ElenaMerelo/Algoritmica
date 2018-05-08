@@ -36,9 +36,10 @@ void backtracking(ConvenienceMatrix & c, vector<int> v)
     {
       cost=aux_cost;
       solution=v;
-      backtracking(c, v); //recursividad
     }
-    if(v.size()<9) backtracking(c, v);
+
+    else backtracking(c, v); //recursividad
+    
     v.pop_back(); //eliminamos el elemento aniadido antes para calcular
                   //la siguiente posibilidad
   }
@@ -69,11 +70,11 @@ int main(int argc, const char **argv)
   tdespues = clock();
 
   #if SHOW_EMPIRIC  
+    cout << n << " " << ((double)(tdespues-tantes))/CLOCKS_PER_SEC << endl;
+  #else
     cout << "Mejor solucion: ";
     to_s(solution);
     cout << "Coste de mejor solución: " << cost << endl;
     cout << "Soluciones totales calculadas " << count << endl;
-  // #else
-    cout << n << " " << ((double)(tdespues-tantes))/CLOCKS_PER_SEC << endl;
   #endif
 }
