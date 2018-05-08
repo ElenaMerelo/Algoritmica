@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.5.2)  7 MAY 2018 23:16
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2018.5.2)  8 MAY 2018 16:07
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -645,43 +645,83 @@ File: lstlang1.sty 2015/06/04 1.6 listings language file
 (/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty
 File: lstmisc.sty 2015/06/04 1.6 (Carsten Heinz)
 )
-LaTeX Font Info:    Try loading font information for OML+cmr on input line 72.
+LaTeX Font Info:    Try loading font information for OML+cmr on input line 80.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omlcmr.fd
 File: omlcmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OML/cmr/m/n' in size <9> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 72.
-LaTeX Font Info:    Try loading font information for OMS+cmr on input line 73.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 80.
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 81.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
 File: omscmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
 LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <9> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 73.
- [1] (./memoria.aux) ) 
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 81.
+ [1] [2] [3]
+<../graphics/metodo1.png, id=31, 462.528pt x 346.896pt>
+File: ../graphics/metodo1.png Graphic file (type png)
+
+<use ../graphics/metodo1.png>
+Package pdftex.def Info: ../graphics/metodo1.png used on input line 191.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+
+<../graphics/metodo2.png, id=33, 462.528pt x 346.896pt>
+File: ../graphics/metodo2.png Graphic file (type png)
+
+<use ../graphics/metodo2.png>
+Package pdftex.def Info: ../graphics/metodo2.png used on input line 193.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+
+<../graphics/metodo3.png, id=34, 462.528pt x 346.896pt>
+File: ../graphics/metodo3.png Graphic file (type png)
+
+<use ../graphics/metodo3.png>
+Package pdftex.def Info: ../graphics/metodo3.png used on input line 195.
+(pdftex.def)             Requested size: 231.26343pt x 173.44757pt.
+
+
+LaTeX Warning: Float too large for page by 43.05367pt on input line 197.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+<../graphics/juntas.png, id=35, 462.528pt x 346.896pt>
+File: ../graphics/juntas.png Graphic file (type png)
+
+<use ../graphics/juntas.png>
+Package pdftex.def Info: ../graphics/juntas.png used on input line 207.
+(pdftex.def)             Requested size: 277.51894pt x 208.13919pt.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+[4] [5 <../graphics/metodo1.png> <../graphics/metodo2.png> <../graphics/metodo3
+.png>] [6 <../graphics/juntas.png>] (./memoria.aux) ) 
 Here is how much of TeX's memory you used:
- 16015 strings out of 493029
- 296202 string characters out of 6136235
- 435709 words of memory out of 5000000
- 19239 multiletter control sequences out of 15000+600000
- 11025 words of font info for 39 fonts, out of 8000000 for 9000
+ 16047 strings out of 493029
+ 296806 string characters out of 6136235
+ 489656 words of memory out of 5000000
+ 19265 multiletter control sequences out of 15000+600000
+ 11477 words of font info for 41 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 62i,5n,99p,803b,1499s stack positions out of 5000i,500n,10000p,200000b,80000s
-</usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/c
-mcsc10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10
-.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi9.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/sha
-re/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texl
-ive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist/f
-onts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmti12.pfb>
-Output written on memoria.pdf (2 pages, 120276 bytes).
+ 62i,7n,99p,803b,1823s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/f
+onts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/share/texlive/texmf-dist/fonts/
+type1/public/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmmi9.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cm
+r6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb><
+/usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy9.pfb></usr/share/te
+xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmti12.pfb>
+Output written on memoria.pdf (7 pages, 226258 bytes).
 PDF statistics:
- 56 PDF objects out of 1000 (max. 8388607)
- 39 compressed objects within 1 object stream
+ 86 PDF objects out of 1000 (max. 8388607)
+ 55 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 18 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 38 words of extra memory for PDF output out of 10000 (max. 10000000)
 
