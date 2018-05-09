@@ -9,18 +9,20 @@
 
 using namespace std;
 
-#define SHOW_EMPIRIC 1
+#define SHOW_EMPIRIC 0
 
 static int count = 0; //numero de soluciones calculadas
 
 void to_s(const vector<int>& v) {
-  cout << "combination no " << (++count) << ": [ ";
+  cout << "combination no " << count << ": [ ";
   for (int i = 0; i < v.size(); ++i) { cout << v[i] << " "; }
   cout << "] " << endl;
 }
 
 
 vector<int> solution; //mejor solucuion
+
+
 int cost; //coste de la solucion
 int aux_cost; //coste auxiliar para calcular el maximo
 
@@ -30,7 +32,7 @@ void backtracking(ConvenienceMatrix & c, vector<int> v)
   for(int i=0; i<available.size(); i++)
   {
     v.push_back(available[i] ); //aniadimos el siguiente numero que no este ya en la solucion
-    if( v.size() == c.size() ) ++count;//to_s(v); //descomentar para ver todas las posibilidades
+    if( v.size() == c.size() ) {count++; to_s(v); };//to_s(v); //descomentar para ver todas las posibilidades
     aux_cost=c.costs(v);
     if(aux_cost > cost  ) //guardamos la solucion con el mayor coste
     {
@@ -39,7 +41,6 @@ void backtracking(ConvenienceMatrix & c, vector<int> v)
       backtracking(c, v); //recursividad
     }
 
-    if(v.size()<7) backtracking(c, v);
     
     v.pop_back(); //eliminamos el elemento aniadido antes para calcular
                   //la siguiente posibilidad
@@ -63,8 +64,8 @@ int main(int argc, const char **argv)
   int n=atoi(argv[1]);
   ConvenienceMatrix c(n);
 
-  // for(int i=0; i<n; i++){ solution.push_back(i); }
-  // cost=c.costs(solution);
+  for(int i=0; i<n; i++){ solution.push_back(i); }
+  cost=c.costs(solution);
   
   tantes = clock();
   backtracking(c, vector<int>());
