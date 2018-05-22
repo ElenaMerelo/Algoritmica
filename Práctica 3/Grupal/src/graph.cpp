@@ -37,7 +37,7 @@ class graph{
     pair<int, int> general_min(vector<int> &r);
 
   public:
-    graph(const char* fichero);
+    graph(int n);
 
     double get_weight(int i, int j);
     double total_weight(vector<int> path);
@@ -93,34 +93,46 @@ void graph::fill(const vector<city> &v){
 
 /*==============================================================*/
 
-graph::graph(const char *file){
-  int num_cities, n;
-  double x, y;
-  string header;
-  ifstream f;
-
-  f.open(file);
-
-  if(!f){
-    cerr << "No se pudo abrir el fichero" << endl;
-    exit(-1);
-  }
-
-  f >> header;
-  f >> num_cities;
-
-  for(int i=0; i< num_cities; i++){
-    f >> n;
-    f >> x;
-    f >> y;
-    cities.push_back( make_pair(x, y) );
-  }
-
+graph::graph(int n){
+  m.resize(n);
+  cities.resize(n);
   visited.resize(n, false);
+  for(int i= 0; i< m.size(); i++){
+    m[i].resize(n);
+  }
 
-  fill(cities);
+  srand(time(NULL));
+  for(int i=0; i<n; i++)
+    for(int j=i+1; j<n; j++)
+      m[i][j]= rand() % 100;
 
-  f.close();
+  // int num_cities, n;
+  // double x, y;
+  // string header;
+  // ifstream f;
+
+  // f.open(file);
+
+  // if(!f){
+  //   cerr << "No se pudo abrir el fichero" << endl;
+  //   exit(-1);
+  // }
+
+  // f >> header;
+  // f >> num_cities;
+
+  // for(int i=0; i< num_cities; i++){
+  //   f >> n;
+  //   f >> x;
+  //   f >> y;
+  //   cities.push_back( make_pair(x, y) );
+  // }
+
+  // visited.resize(n, false);
+
+  // fill(cities);
+
+  // f.close();
 }
 
 /*==============================================================*/

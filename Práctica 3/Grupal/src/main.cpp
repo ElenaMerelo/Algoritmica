@@ -18,22 +18,24 @@ int main(int argc, char **argv){
         exit(-1);
     }
 
-    graph G(argv[1]);
+
+    graph G(1);
+
+    clock_t tbefore;
+    clock_t tafter;
+
 
     double l;
     vector<int> solution;
-    
+
+    for(int i=1; i<16; i++){
+
+    G = graph(i);
+    tbefore=clock();    
     solution=G.min_path1(0, l);
-    cout << "Algoritmo 1: (ciudad 1) " << "Peso: " << l << endl;
-    show_vector(solution);
+    tafter=clock();
 
-    solution=G.min_path2(l);
-    cout << "Algoritmo 2: " << "Peso: " << l << endl;
-    show_vector(solution);
+    printf("%d %5.9f\n", i, ((double)(tafter-tbefore))/CLOCKS_PER_SEC );
 
-    solution=G.min_path3(0, l);
-    cout << "Algoritmo 3: (triangulo desde ciudad 1) " << "Peso: " << l << endl;
-    show_vector(solution);
-
-
+    }
 }
