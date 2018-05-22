@@ -14,7 +14,7 @@ using namespace std;
 static int count = 0; //numero de soluciones calculadas
 
 void to_s(const vector<int>& v) {
-  cout << "combination no " << (++count) << ": [ ";
+  cout << "combination no " << (count) << ": [ ";
   for (int i = 0; i < v.size(); ++i) { cout << v[i] << " "; }
   cout << "] " << endl;
 }
@@ -29,10 +29,11 @@ void backtracking(ConvenienceMatrix & c, vector<int> v)
   vector<int> available=supplementary(v, c.size()); //definida en 'auxliar.cpp'
   for(int i=0; i<available.size(); i++)
   {
-    v.push_back(available[i] ); //aniadimos el siguiente numero que no este ya en la solucion
-    if( v.size() == c.size() ) ++count;//to_s(v); //descomentar para ver todas las posibilidades
+    // cout << available.size() << endl;
+    v.push_back(available[i] ); 
+    if( v.size() == c.size() ) {++count; to_s(v);}
     aux_cost=c.costs(v);
-    if(aux_cost > cost  ) //guardamos la solucion con el mayor coste
+    if(aux_cost > cost  )
     {
       cost=aux_cost;
       solution=v;

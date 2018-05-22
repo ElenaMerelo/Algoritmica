@@ -1,0 +1,16 @@
+
+n=1 => n!: 1 		 Nodos: 0 		 Podas: 0 		 Max. Size 1 		 Tiempo (s): 0.000007000
+n=2 => n!: 2 		 Nodos: 1 		 Podas: 0 		 Max. Size 1 		 Tiempo (s): 0.000005000
+n=3 => n!: 6 		 Nodos: 4 		 Podas: 0 		 Max. Size 2 		 Tiempo (s): 0.000016000
+n=4 => n!: 24 		 Nodos: 15 		 Podas: 0 		 Max. Size 4 		 Tiempo (s): 0.000054000
+n=5 => n!: 120 		 Nodos: 61 		 Podas: 3 		 Max. Size 7 		 Tiempo (s): 0.000230000
+n=6 => n!: 720 		 Nodos: 289 		 Podas: 36 		 Max. Size 11 		 Tiempo (s): 0.001089000
+n=7 => n!: 5040 		 Nodos: 1194 		 Podas: 460 		 Max. Size 16 		 Tiempo (s): 0.004259000
+n=8 => n!: 40320 		 Nodos: 5122 		 Podas: 2671 		 Max. Size 22 		 Tiempo (s): 0.017484000
+n=9 => n!: 362880 		 Nodos: 16941 		 Podas: 10304 		 Max. Size 29 		 Tiempo (s): 0.056744000
+n=10 => n!: 3628800 		 Nodos: 77958 		 Podas: 50624 		 Max. Size 37 		 Tiempo (s): 0.246765000
+n=11 => n!: 39916800 		 Nodos: 305630 		 Podas: 213923 		 Max. Size 46 		 Tiempo (s): 0.887034000
+n=12 => n!: 479001600 		 Nodos: 172224 		 Podas: 129851 		 Max. Size 56 		 Tiempo (s): 0.465257000
+n=13 => n!: 6227020800 		 Nodos: 1070910 		 Podas: 836710 		 Max. Size 67 		 Tiempo (s): 2.934070000
+n=14 => n!: 87178291200 		 Nodos: 7031203 		 Podas: 5562461 		 Max. Size 79 		 Tiempo (s): 19.010652000
+n=15 => n!: 1307674368000 		 Nodos: 5256424 		 Podas: 4330271 		 Max. Size 92 		 Tiempo (s): 13.512952000

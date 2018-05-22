@@ -30,7 +30,7 @@ void backtracking(ConvenienceMatrix & c, vector<int> v)
   for(int i=0; i<available.size(); i++)
   {
     v.push_back(available[i] ); //aniadimos el siguiente numero que no este ya en la solucion
-    if( v.size() == c.size() ) ++count;//to_s(v); //descomentar para ver todas las posibilidades
+    if( v.size() == c.size() ) {++count; to_s(v); }//to_s(v); //descomentar para ver todas las posibilidades
     aux_cost=c.costs(v);
     if(aux_cost > cost  ) //guardamos la solucion con el mayor coste
     {

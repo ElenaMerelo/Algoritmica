@@ -20,4 +20,10 @@ vector<int> supplementary(vector<int> & v, int n)
     return result;
 }
 
+void show_vector(vector<int> & v){
+    for(int i=0; i<v.size(); i++)
+        cout << v[i] << " ";
+    cout << endl;
+}
+
 #endif
